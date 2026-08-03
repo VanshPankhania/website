@@ -1,63 +1,783 @@
-<section id="plans">
-  <h2>Choose Your Plan</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RemoteReady – Travel Smarter. Work Better. Live Anywhere.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <div class="plans">
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <!-- STARTER PLAN -->
-    <div class="plan-card" data-plan="starter">
-      <h3>Starter Plan</h3>
-      <p class="price">£80</p>
-      <p>Perfect for short stays (1–2 weeks).</p>
+  <style>
+    :root {
+      --primary: #1A3D6F;
+      --secondary: #4CC7D8;
+      --accent: #E8D3A0;
+      --dark: #2A2A2A;
+      --light: #f7f9fc;
+    }
 
-      <div class="plan-details">
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-image: url("images/background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      position: relative;
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(2px);
+      z-index: -1;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background-size: 200% 200%;
+      animation: gradientShift 12s ease infinite;
+      color: #fff;
+      padding: 4rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .floating-shape {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      filter: blur(4px);
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-40px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .shape1 { top: 20px; left: 10%; }
+    .shape2 { top: 120px; right: 15%; animation-delay: 2s; }
+
+    header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    header p { font-size: 1.2rem; max-width: 640px; margin: 0.5rem auto 1.5rem; }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: #fff;
+      color: var(--primary);
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+    }
+
+    main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
+    section { margin-bottom: 3rem; }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+      color: var(--primary);
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      margin: 1.25rem 0 0.5rem;
+      color: var(--primary);
+    }
+
+    p { margin-bottom: 0.75rem; }
+    ul { margin-left: 1.2rem; margin-bottom: 0.75rem; }
+    li { margin-bottom: 0.35rem; }
+
+    .card, .img-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .img-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .img-card img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .plan-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      border-top: 4px solid var(--secondary);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .plan-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    }
+
+    .plan-details {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      padding-top: 0;
+    }
+
+    .plan-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 14px 32px rgba(0,0,0,0.18);
+    }
+
+    .plan-card.active .plan-details {
+      padding-top: 1rem;
+    }
+
+    .plan-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      background: #fff;
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      background: var(--accent);
+    }
+
+    .btn-select {
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-select:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+      background: #122a4b;
+    }
+
+    .cta-block {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      color: #666;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 520px;
+      width: 90%;
+      padding: 1.5rem 1.75rem;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+      transform: translateY(40px);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-close {
+      border: none;
+      background: transparent;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    /* Compare table */
+    #compare {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid #eee;
+      padding: 0.6rem;
+      text-align: left;
+    }
+
+    th {
+      background: #f3f6fb;
+      color: var(--primary);
+    }
+
+    /* Onboarding */
+    #onboarding {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .onboarding-steps {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .onboarding-step {
+      flex: 1;
+      min-width: 180px;
+      padding: 0.75rem;
+      border-radius: 10px;
+      background: #f3f6fb;
+      border: 1px solid transparent;
+      transition: border 0.2s ease, background 0.2s ease;
+    }
+
+    .onboarding-step.active {
+      border-color: var(--primary);
+      background: #e6f0ff;
+    }
+
+    .onboarding-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="floating-shape shape1"></div>
+    <div class="floating-shape shape2"></div>
+
+    <h1>RemoteReady</h1>
+    <p>Personalised, productivity‑friendly travel plans for remote workers who want to live abroad without stress.</p>
+    <a href="#get-started" class="btn-primary">Get Your RemoteReady Guide</a>
+  </header>
+
+  <main>
+
+    <!-- WHY SECTION -->
+    <section id="why">
+      <h2>Why Remote Workers Choose RemoteReady</h2>
+
+      <div class="img-card">
+        <img src="images/desk.jpg" alt="Remote work planning desk">
+      </div>
+
+      <p>Moving abroad for a month should feel exciting — not overwhelming. But most remote workers end up drowning in questions:</p>
+      <ul>
+        <li>Which neighbourhood is safe and walkable?</li>
+        <li>Will the WiFi be good enough for calls?</li>
+        <li>Where do I work — cafés or coworking?</li>
+        <li>How much does Lisbon actually cost?</li>
+        <li>Which Airbnb is legit?</li>
+        <li>Where do I eat healthy without overspending?</li>
+        <li>How do I build a routine that keeps me productive?</li>
+      </ul>
+      <p>RemoteReady solves all of this in one personalised, done‑for‑you guide.</p>
+    </section>
+
+    <!-- LISBON EXAMPLE -->
+    <section id="lisbon">
+      <h2>Example: Lisbon 4‑Week Remote Worker Plan</h2>
+
+      <div class="img-card">
+        <img src="images/lisbon.jpg" alt="Lisbon rooftops and castle">
+      </div>
+
+      <div class="card">
+        <h3>Neighbourhood Choice</h3>
+
+        <div class="img-card">
+          <img src="images/city.jpg" alt="Lisbon neighbourhood street">
+        </div>
+
+        <p><strong>Base: Arroios</strong> — safe, walkable, local, great value, with fast fibre WiFi and easy metro access to Baixa.</p>
+      </div>
+
+      <div class="card">
+        <h3>Daily Routine Snapshot</h3>
+
+        <div class="img-card">
+          <img src="images/window.jpg" alt="Remote worker by window">
+        </div>
+
+        <p><strong>Morning:</strong> Deep work in a quiet café.</p>
+        <p><strong>Afternoon:</strong> Calls + collaboration at coworking spaces.</p>
+        <p><strong>Evening:</strong> Fitness, sunset walks, riverside.</p>
+      </div>
+
+      <div class="card">
+        <h3>Coworking Options</h3>
+
+        <div class="img-card">
+          <img src="images/coworking.jpg" alt="Coworking space">
+        </div>
+
         <ul>
-          <li>3–7 day itinerary</li>
-          <li>Café + coworking map</li>
-          <li>Transport + SIM setup</li>
-          <li>Budget breakdown</li>
-          <li>Arrival checklist</li>
-          <li>Safety notes</li>
+          <li>Heden — calm, modern</li>
+          <li>Second Home — creative</li>
+          <li>Avila Spaces — great for calls</li>
         </ul>
       </div>
-    </div>
 
-    <!-- WORK-STAY PLAN -->
-    <div class="plan-card" data-plan="workstay">
-      <h3>Work‑Stay Setup</h3>
-      <p class="price">£150–£250</p>
-      <p>Best for 1–3 month stays.</p>
+      <div class="card">
+        <h3>Café Work Options</h3>
 
-      <div class="plan-details">
+        <div class="img-card">
+          <img src="images/cafe.jpg" alt="Lisbon café workspace">
+        </div>
+
         <ul>
-          <li>Neighbourhood ranking</li>
-          <li>Accommodation suggestions</li>
-          <li>Productivity routine</li>
-          <li>Healthy food map</li>
-          <li>Weekly structure plan</li>
-          <li>Local gym + fitness options</li>
-          <li>Two itinerary versions</li>
+          <li>Hello, Kristof — quiet mornings</li>
+          <li>Fabrica Coffee Roasters — great espresso</li>
+          <li>Nicolau — bright, aesthetic</li>
         </ul>
       </div>
-    </div>
 
-    <!-- FULL RELOCATION -->
-    <div class="plan-card" data-plan="relocation">
-      <h3>Full Relocation Blueprint</h3>
-      <p class="price">£350–£500</p>
-      <p>For remote workers relocating abroad.</p>
-
-      <div class="plan-details">
+      <div class="card">
+        <h3>Budget Snapshot</h3>
+        <p>4 weeks in Lisbon on a lean but realistic budget:</p>
         <ul>
-          <li>Multiple itinerary versions</li>
-          <li>Cost‑of‑living model</li>
-          <li>“First 48 hours” checklist</li>
-          <li>Accommodation scouting</li>
-          <li>Visa guidance (country‑specific)</li>
-          <li>Healthcare + safety setup</li>
-          <li>Two revisions included</li>
+          <li>Accommodation: ~£620</li>
+          <li>Food: ~£220</li>
+          <li>Coworking: ~£120</li>
+          <li>Transport: ~£40</li>
+          <li>Extras: ~£250–300</li>
         </ul>
+        <p><strong>Total:</strong> ~£1,730–£1,780</p>
       </div>
-    </div>
+    </section>
 
+    <!-- PLANS -->
+    <section id="plans">
+      <h2>Choose Your Plan</h2>
+      <div class="plans">
+
+        <div class="plan-card" data-plan="starter">
+          <div class="plan-icon">🗺️</div>
+          <h3>Starter Plan</h3>
+          <p class="price">£80</p>
+          <p>Perfect for short stays (1–2 weeks).</p>
+
+          <div class="plan-details">
+            <ul>
+              <li>3–7 day itinerary</li>
+              <li>Café + coworking map</li>
+              <li>Transport + SIM setup</li>
+              <li>Budget breakdown</li>
+              <li>Arrival checklist</li>
+              <li>Safety notes</li>
+            </ul>
+          </div>
+
+          <div class="plan-actions">
+            <button class="btn-secondary btn-details" data-plan="starter">More details</button>
+            <button class="btn-select" data-plan="Starter Plan">Select plan</button>
+          </div>
+        </div>
+
+        <div class="plan-card" data-plan="workstay">
+          <div class="plan-icon">💼</div>
+          <h3>Work‑Stay Setup</h3>
+          <p class="price">£150–£250</p>
+          <p>Best for 1–3 month stays.</p>
+
+          <div class="plan-details">
+            <ul>
+              <li>Neighbourhood ranking</li>
+              <li>Accommodation suggestions</li>
+              <li>Productivity routine</li>
+              <li>Healthy food map</li>
+              <li>Weekly structure plan</li>
+              <li>Local gym + fitness options</li>
+              <li>Two itinerary versions</li>
+            </ul>
+          </div>
+
+          <div class="plan-actions">
+            <button class="btn-secondary btn-details" data-plan="workstay">More details</button>
+            <button class="btn-select" data-plan="Work‑Stay Setup">Select plan</button>
+          </div>
+        </div>
+
+        <div class="plan-card" data-plan="relocation">
+          <div class="plan-icon">🌍</div>
+          <h3>Full Relocation Blueprint</h3>
+          <p class="price">£350–£500</p>
+          <p>For remote workers relocating abroad.</p>
+
+          <div class="plan-details">
+            <ul>
+              <li>Multiple itinerary versions</li>
+              <li>Cost‑of‑living model</li>
+              <li>“First 48 hours” checklist</li>
+              <li>Accommodation scouting</li>
+              <li>Visa guidance (country‑specific)</li>
+              <li>Healthcare + safety setup</li>
+              <li>Two revisions included</li>
+            </ul>
+          </div>
+
+          <div class="plan-actions">
+            <button class="btn-secondary btn-details" data-plan="relocation">More details</button>
+            <button class="btn-select" data-plan="Full Relocation Blueprint">Select plan</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- COMPARE PLANS -->
+    <section id="compare">
+      <h2>Compare Plans</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Starter</th>
+            <th>Work‑Stay</th>
+            <th>Relocation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Length of stay</td>
+            <td>1–2 weeks</td>
+            <td>1–3 months</td>
+            <td>3+ months / relocation</td>
+          </tr>
+          <tr>
+            <td>Neighbourhood ranking</td>
+            <td>Basic</td>
+            <td>Detailed</td>
+            <td>City‑wide</td>
+          </tr>
+          <tr>
+            <td>Accommodation suggestions</td>
+            <td>Shortlist</td>
+            <td>Curated list</td>
+            <td>Scouting + guidance</td>
+          </tr>
+          <tr>
+            <td>Budget breakdown</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Advanced model</td>
+          </tr>
+          <tr>
+            <td>Revisions</td>
+            <td>0</td>
+            <td>1</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ONBOARDING -->
+    <section id="onboarding">
+      <h2>How Your RemoteReady Plan Works</h2>
+      <div class="onboarding-steps">
+        <div class="onboarding-step" data-step="1">
+          <h3>Step 1 – Tell us your goals</h3>
+          <p>Share your budget, dates, work schedule, and preferences.</p>
+        </div>
+        <div class="onboarding-step" data-step="2">
+          <h3>Step 2 – We design your plan</h3>
+          <p>We build a personalised itinerary, routine, and neighbourhood setup.</p>
+        </div>
+        <div class="onboarding-step" data-step="3">
+          <h3>Step 3 – You arrive ready</h3>
+          <p>Land with clarity: where to stay, work, eat, and explore.</p>
+        </div>
+      </div>
+      <div class="onboarding-controls">
+        <button class="btn-secondary" id="onboarding-prev">Back</button>
+        <button class="btn-select" id="onboarding-next">Next</button>
+      </div>
+    </section>
+
+    <!-- CHECKOUT / CTA -->
+    <section id="get-started">
+      <div class="cta-block">
+        <h2>Ready to Live Abroad Without Stress?</h2>
+        <p>Choose a plan, complete checkout, and get your personalised RemoteReady guide delivered to your inbox.</p>
+        <a href="#" class="btn-primary">Start Checkout</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>RemoteReady – Travel smarter. Work better. Live anywhere.</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="plan-modal-overlay">
+    <div class="modal" id="plan-modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Plan details</h3>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <p id="modal-body"></p>
+    </div>
   </div>
-</section>
+
+  <!-- GSAP Animations + Interactions -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero intro
+    gsap.from("header h1", { opacity: 0, y: -40, duration: 1 });
+    gsap.from("header p", { opacity: 0, y: 20, duration: 1, delay: 0.3 });
+    gsap.from(".btn-primary", { opacity: 0, scale: 0.8, duration: 0.8, delay: 0.6 });
+
+    // Fade-in + fade-out for cards, images, sections
+    gsap.utils.toArray(".card, .img-card, .plan-card, #compare, #onboarding, .cta-block, footer").forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            end: "bottom 10%",
+            onLeave: () => gsap.to(el, { opacity: 0.2, duration: 0.4 }),
+            onEnterBack: () => gsap.to(el, { opacity: 1, duration: 0.4 })
+          }
+        }
+      );
+    });
+
+    // Hover micro-interactions for plan cards
+    const planCards = document.querySelectorAll(".plan-card");
+    planCards.forEach(card => {
+      card.addEventListener("mouseenter", () => {
+        gsap.to(card, { scale: 1.03, duration: 0.2 });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, { scale: 1.0, duration: 0.2 });
+      });
+
+      card.addEventListener("click", () => {
+        const details = card.querySelector(".plan-details");
+        const isOpen = card.classList.contains("active");
+
+        planCards.forEach(c => {
+          if (c !== card) {
+            c.classList.remove("active");
+            gsap.to(c.querySelector(".plan-details"), { maxHeight: 0, opacity: 0, duration: 0.3 });
+          }
+        });
+
+        if (isOpen) {
+          card.classList.remove("active");
+          gsap.to(details, { maxHeight: 0, opacity: 0, duration: 0.3 });
+        } else {
+          card.classList.add("active");
+          gsap.to(details, { maxHeight: 300, opacity: 1, duration: 0.4 });
+        }
+      });
+    });
+
+    // Modal details content
+    const modalOverlay = document.getElementById("plan-modal-overlay");
+    const modalTitle = document.getElementById("modal-title");
+    const modalBody = document.getElementById("modal-body");
+    const modalClose = document.getElementById("modal-close");
+
+    const planDescriptions = {
+      starter: "The Starter Plan is ideal for short test‑runs abroad. You get a focused 3–7 day itinerary, a curated café and coworking map, transport and SIM setup, a clear budget breakdown, and an arrival checklist so you don’t waste your first days figuring things out.",
+      workstay: "The Work‑Stay Setup is built for 1–3 month stays. You get neighbourhood rankings, accommodation suggestions, a productivity‑friendly routine, a healthy food map, weekly structure planning, local gym and fitness options, and two itinerary versions so you can switch between ‘deep work weeks’ and ‘exploration weeks’.",
+      relocation: "The Full Relocation Blueprint is for remote workers moving abroad long‑term. You get multiple itinerary versions, a detailed cost‑of‑living model, a ‘first 48 hours’ checklist, accommodation scouting guidance, visa and admin pointers (country‑specific), healthcare and safety setup, and two rounds of revisions to refine your plan."
+    };
+
+    document.querySelectorAll(".btn-details").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.stopPropagation();
+        const planKey = btn.getAttribute("data-plan");
+        modalTitle.textContent = btn.closest(".plan-card").querySelector("h3").textContent;
+        modalBody.textContent = planDescriptions[planKey] || "";
+        gsap.set(modalOverlay, { pointerEvents: "auto" });
+        gsap.to(modalOverlay, { opacity: 1, duration: 0.3 });
+        gsap.to("#plan-modal", { y: 0, opacity: 1, duration: 0.3 });
+      });
+    });
+
+    modalClose.addEventListener("click", () => {
+      gsap.to("#plan-modal", { y: 40, opacity: 0, duration: 0.3 });
+      gsap.to(modalOverlay, {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: () => gsap.set(modalOverlay, { pointerEvents: "none" })
+      });
+    });
+
+    modalOverlay.addEventListener("click", e => {
+      if (e.target === modalOverlay) {
+        modalClose.click();
+      }
+    });
+
+    // Select plan scroll to checkout
+    document.querySelectorAll(".btn-select").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.stopPropagation();
+        const planName = btn.getAttribute("data-plan");
+        const checkout = document.getElementById("get-started");
+        gsap.to(window, {
+          scrollTo: checkout.offsetTop - 40,
+          duration: 0.8,
+          ease: "power2.out"
+        });
+        // Optional: highlight CTA
+        gsap.fromTo(".cta-block",
+          { scale: 0.98 },
+          { scale: 1.02, duration: 0.4, yoyo: true, repeat: 1 }
+        );
+      });
+    });
+
+    // Onboarding multi-step
+    const onboardingSteps = document.querySelectorAll(".onboarding-step");
+    let currentStep = 1;
+
+    function updateOnboarding() {
+      onboardingSteps.forEach(step => {
+        const stepNum = parseInt(step.getAttribute("data-step"), 10);
+        step.classList.toggle("active", stepNum === currentStep);
+      });
+    }
+
+    updateOnboarding();
+
+    document.getElementById("onboarding-next").addEventListener("click", () => {
+      currentStep = currentStep >= 3 ? 3 : currentStep + 1;
+      updateOnboarding();
+    });
+
+    document.getElementById("onboarding-prev").addEventListener("click", () => {
+      currentStep = currentStep <= 1 ? 1 : currentStep - 1;
+      updateOnboarding();
+    });
+  </script>
+
+</body>
+</html>
