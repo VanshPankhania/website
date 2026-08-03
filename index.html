@@ -5,7 +5,7 @@
   <title>RemoteReady – Travel Smarter. Work Better. Live Anywhere.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- GSAP Level 4 Animations -->
+  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -105,7 +105,8 @@
     ul { margin-left: 1.2rem; margin-bottom: 0.75rem; }
     li { margin-bottom: 0.35rem; }
 
-    .card {
+    /* Cards + Images */
+    .card, .img-card {
       background: #fff;
       border-radius: 12px;
       padding: 1.25rem 1.5rem;
@@ -115,6 +116,18 @@
       transform: translateY(30px);
     }
 
+    .img-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .img-card img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
+    /* Plans */
     .plans {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -179,9 +192,15 @@
   </header>
 
   <main>
+
     <!-- WHY SECTION -->
     <section id="why">
       <h2>Why Remote Workers Choose RemoteReady</h2>
+
+      <div class="img-card">
+        <img src="images/desk.jpg" alt="Remote work planning desk">
+      </div>
+
       <p>Moving abroad for a month should feel exciting — not overwhelming. But most remote workers end up drowning in questions:</p>
       <ul>
         <li>Which neighbourhood is safe and walkable?</li>
@@ -195,33 +214,75 @@
       <p>RemoteReady solves all of this in one personalised, done‑for‑you guide.</p>
     </section>
 
-    <!-- SMALL LISBON EXAMPLE (DEMO OF WHAT YOU OFFER) -->
+    <!-- LISBON EXAMPLE -->
     <section id="lisbon">
       <h2>Example: Lisbon 4‑Week Remote Worker Plan</h2>
 
+      <div class="img-card">
+        <img src="images/lisbon.jpg" alt="Lisbon rooftops and castle">
+      </div>
+
       <div class="card">
         <h3>Neighbourhood Choice</h3>
+
+        <div class="img-card">
+          <img src="images/city.jpg" alt="Lisbon neighbourhood street">
+        </div>
+
         <p><strong>Base: Arroios</strong> — safe, walkable, local, great value, with fast fibre WiFi and easy metro access to Baixa.</p>
       </div>
 
       <div class="card">
         <h3>Daily Routine Snapshot</h3>
-        <p><strong>Morning:</strong> Deep work in a quiet café (e.g. Fabrica Coffee Roasters or Hello, Kristof).</p>
-        <p><strong>Afternoon:</strong> Calls and collaborative work from a coworking space (e.g. Heden, Second Home, or Avila Spaces).</p>
+
+        <div class="img-card">
+          <img src="images/window.jpg" alt="Remote worker by window">
+        </div>
+
+        <p><strong>Morning:</strong> Deep work in a quiet café (Fabrica Coffee Roasters or Hello, Kristof).</p>
+        <p><strong>Afternoon:</strong> Calls + collaboration at coworking spaces (Heden, Second Home, Avila Spaces).</p>
         <p><strong>Evening:</strong> Fitness, sunset walks at miradouros, or riverside at Cais do Sodré.</p>
+      </div>
+
+      <div class="card">
+        <h3>Coworking Options</h3>
+
+        <div class="img-card">
+          <img src="images/coworking.jpg" alt="Coworking space">
+        </div>
+
+        <ul>
+          <li>Heden — calm, modern, reliable WiFi</li>
+          <li>Second Home — creative, plants everywhere</li>
+          <li>Avila Spaces — best for calls</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Café Work Options</h3>
+
+        <div class="img-card">
+          <img src="images/cafe.jpg" alt="Lisbon café workspace">
+        </div>
+
+        <ul>
+          <li>Hello, Kristof — quiet mornings</li>
+          <li>Fabrica Coffee Roasters — great espresso</li>
+          <li>Nicolau — bright, aesthetic, good WiFi</li>
+        </ul>
       </div>
 
       <div class="card">
         <h3>Budget Snapshot</h3>
         <p>4 weeks in Lisbon on a lean but realistic budget:</p>
         <ul>
-          <li>Accommodation (private room in Arroios): ~£620</li>
-          <li>Food (mostly home‑cooked + a few meals out): ~£220</li>
-          <li>Coworking (part‑time/day passes): ~£120</li>
-          <li>Transport (Navegante pass): ~£40</li>
-          <li>Extras (coffee, activities, contingency): ~£250–300</li>
+          <li>Accommodation: ~£620</li>
+          <li>Food: ~£220</li>
+          <li>Coworking: ~£120</li>
+          <li>Transport: ~£40</li>
+          <li>Extras: ~£250–300</li>
         </ul>
-        <p><strong>Total:</strong> ~£1,730–£1,780 for 4 weeks — comfortably within a £1,800 budget.</p>
+        <p><strong>Total:</strong> ~£1,730–£1,780</p>
       </div>
     </section>
 
@@ -290,15 +351,15 @@
     gsap.from("header p", { opacity: 0, y: 20, duration: 1, delay: 0.3 });
     gsap.from(".btn-primary", { opacity: 0, scale: 0.8, duration: 0.8, delay: 0.6 });
 
-    // Cards (Lisbon + others)
-    gsap.utils.toArray(".card").forEach((card, i) => {
-      gsap.to(card, {
+    // Cards + Images
+    gsap.utils.toArray(".card, .img-card").forEach((el, i) => {
+      gsap.to(el, {
         opacity: 1,
         y: 0,
         duration: 0.8,
         delay: i * 0.15,
         scrollTrigger: {
-          trigger: card,
+          trigger: el,
           start: "top 85%"
         }
       });
