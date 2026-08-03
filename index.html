@@ -8,6 +8,10 @@
   <!-- AOS Animation Library -->
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 
+  <!-- GSAP Level 4 Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
   <style>
     :root {
       --primary: #1A3D6F;
@@ -16,58 +20,109 @@
       --dark: #2A2A2A;
       --light: #f7f9fc;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--light);
       color: var(--dark);
       line-height: 1.6;
+      overflow-x: hidden;
     }
+
+    /* Animated Gradient Background */
     header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background-size: 200% 200%;
+      animation: gradientShift 12s ease infinite;
       color: #fff;
-      padding: 3rem 1.5rem;
+      padding: 4rem 1.5rem;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    header h1 { font-size: 2.4rem; margin-bottom: 0.5rem; }
-    header p { font-size: 1.1rem; max-width: 640px; margin: 0.5rem auto 1.5rem; }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Parallax floating shapes */
+    .floating-shape {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      filter: blur(4px);
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-40px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .shape1 { top: 20px; left: 10%; }
+    .shape2 { top: 120px; right: 15%; animation-delay: 2s; }
+
+    header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    header p { font-size: 1.2rem; max-width: 640px; margin: 0.5rem auto 1.5rem; }
+
     .btn-primary {
       display: inline-block;
-      padding: 0.9rem 1.8rem;
+      padding: 1rem 2rem;
       background: #fff;
       color: var(--primary);
       border-radius: 999px;
       font-weight: 600;
       text-decoration: none;
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
+
+    .btn-primary:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+    }
+
     main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
-    section { margin-bottom: 2.5rem; }
+    section { margin-bottom: 3rem; }
+
     h2 {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       margin-bottom: 0.75rem;
       color: var(--primary);
     }
+
     h3 {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       margin: 1.25rem 0 0.5rem;
       color: var(--primary);
     }
+
     p { margin-bottom: 0.75rem; }
     ul { margin-left: 1.2rem; margin-bottom: 0.75rem; }
     li { margin-bottom: 0.35rem; }
+
     .highlight {
       background: #fff;
       border-radius: 12px;
       padding: 1.25rem 1.5rem;
       box-shadow: 0 4px 14px rgba(0,0,0,0.06);
       margin-bottom: 1rem;
+      opacity: 0;
     }
+
     .plans {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.5rem;
     }
+
     .plan-card {
       background: #fff;
       border-radius: 12px;
@@ -75,46 +130,57 @@
       box-shadow: 0 4px 14px rgba(0,0,0,0.06);
       border-top: 4px solid var(--secondary);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
     }
+
     .plan-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 10px 24px rgba(0,0,0,0.12);
     }
-    .plan-card h3 { margin-top: 0; }
+
     .price {
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 0.5rem;
     }
+
     .cta-block {
       text-align: center;
       padding: 2rem 1.5rem;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      opacity: 0;
     }
-    .cta-block p { max-width: 540px; margin: 0.5rem auto 1.25rem; }
+
     footer {
       text-align: center;
       padding: 1.5rem;
       font-size: 0.9rem;
       color: #666;
+      opacity: 0;
     }
+
     @media (max-width: 600px) {
-      header h1 { font-size: 2rem; }
+      header h1 { font-size: 2.4rem; }
     }
   </style>
 </head>
 <body>
 
-  <header data-aos="fade-down">
+  <header>
+    <div class="floating-shape shape1"></div>
+    <div class="floating-shape shape2"></div>
+
     <h1>RemoteReady</h1>
     <p>Personalised, productivity‑friendly travel plans for remote workers who want to live abroad without stress.</p>
-    <a href="#get-started" class="btn-primary" data-aos="zoom-in" data-aos-delay="300">Get Your RemoteReady Guide</a>
+    <a href="#get-started" class="btn-primary">Get Your RemoteReady Guide</a>
   </header>
 
   <main>
-    <section id="why" data-aos="fade-up">
+
+    <!-- WHY SECTION -->
+    <section id="why">
       <h2>Why Remote Workers Choose RemoteReady</h2>
       <p>Moving abroad for a month should feel exciting — not overwhelming...</p>
       <ul>
@@ -126,80 +192,131 @@
       <p>RemoteReady solves all of this...</p>
     </section>
 
-    <section id="what-you-get" data-aos="fade-up">
-      <h2>What You Get</h2>
+    <!-- LISBON EXAMPLE -->
+    <section id="lisbon">
+      <h2>Example: Lisbon 4‑Week Remote Worker Plan</h2>
 
-      <div class="highlight" data-aos="fade-up" data-aos-delay="100">
-        <h3>Neighbourhood Ranking</h3>
-        <p><em>“Arroios… High safety, High WiFi...”</em></p>
+      <div class="highlight">
+        <h3>Best Neighbourhoods</h3>
+        <ul>
+          <li><strong>Arroios</strong> — Best value, safe, walkable, great cafés</li>
+          <li><strong>Santos</strong> — Creative, riverside, stylish</li>
+          <li><strong>Baixa</strong> — Central, walkable, touristy</li>
+        </ul>
       </div>
 
-      <div class="highlight" data-aos="fade-up" data-aos-delay="200">
-        <h3>Accommodation Recommendations</h3>
+      <div class="highlight">
+        <h3>Daily Routine</h3>
+        <p><strong>08:00</strong> — Riverside walk</p>
+        <p><strong>09:30</strong> — Deep work at Hello Kristof</p>
+        <p><strong>13:30</strong> — Coworking at Heden</p>
+        <p><strong>18:00</strong> — Gym or sunset at Miradouro da Graça</p>
       </div>
 
-      <div class="highlight" data-aos="fade-up" data-aos-delay="300">
-        <h3>Coworking + Café Work Map</h3>
-      </div>
-
-      <div class="highlight" data-aos="fade-up" data-aos-delay="400">
-        <h3>Daily Productivity Routine</h3>
+      <div class="highlight">
+        <h3>Budget Breakdown</h3>
+        <ul>
+          <li>Accommodation: £620</li>
+          <li>Food: £220</li>
+          <li>Coworking: £120</li>
+          <li>Transport: £40</li>
+          <li>Total: ~£1,730–£1,780</li>
+        </ul>
       </div>
     </section>
 
-    <section id="who" data-aos="fade-up">
-      <h2>Who RemoteReady Is For</h2>
-      <ul>
-        <li>A stress‑free relocation</li>
-        <li>A productivity‑friendly environment</li>
-        <li>A healthy routine while abroad</li>
-      </ul>
-    </section>
-
-    <section id="plans" data-aos="fade-up">
+    <!-- PLANS -->
+    <section id="plans">
       <h2>Choose Your Plan</h2>
       <div class="plans">
-        <div class="plan-card" data-aos="zoom-in" data-aos-delay="100">
+        <div class="plan-card">
           <h3>Starter Plan</h3>
+          <p class="price">£80</p>
         </div>
 
-        <div class="plan-card" data-aos="zoom-in" data-aos-delay="200">
+        <div class="plan-card">
           <h3>Work‑Stay Setup</h3>
+          <p class="price">£150–£250</p>
         </div>
 
-        <div class="plan-card" data-aos="zoom-in" data-aos-delay="300">
+        <div class="plan-card">
           <h3>Full Relocation Blueprint</h3>
+          <p class="price">£350–£500</p>
         </div>
       </div>
     </section>
 
-    <section id="why-better" data-aos="fade-up">
-      <h2>Why RemoteReady Beats DIY Planning</h2>
-      <p>Most people spend 20–40 hours researching a city...</p>
-    </section>
-
-    <section id="get-started" data-aos="fade-up">
+    <!-- CTA -->
+    <section id="get-started">
       <div class="cta-block">
         <h2>Ready to Live Abroad Without Stress?</h2>
-        <a href="#" class="btn-primary" data-aos="zoom-in">Get Your RemoteReady Guide</a>
+        <a href="#" class="btn-primary">Get Your RemoteReady Guide</a>
       </div>
     </section>
+
   </main>
 
-  <footer data-aos="fade-up">
+  <footer>
     <p>RemoteReady – Travel smarter. Work better. Live anywhere.</p>
   </footer>
 
   <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration: 900, easing: 'ease-out-quart', once: true });</script>
+
+  <!-- GSAP Animations -->
   <script>
-    AOS.init({
-      duration: 900,
-      easing: 'ease-out-quart',
-      once: true
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from("header h1", { opacity: 0, y: -40, duration: 1 });
+    gsap.from("header p", { opacity: 0, y: 20, duration: 1, delay: 0.3 });
+    gsap.from(".btn-primary", { opacity: 0, scale: 0.8, duration: 0.8, delay: 0.6 });
+
+    gsap.utils.toArray(".highlight").forEach((box, i) => {
+      gsap.from(box, {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        delay: i * 0.2,
+        scrollTrigger: {
+          trigger: box,
+          start: "top 80%"
+        }
+      });
+    });
+
+    gsap.utils.toArray(".plan-card").forEach((card, i) => {
+      gsap.from(card, {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.8,
+        delay: i * 0.2,
+        scrollTrigger: {
+          trigger: card,
+          start: "top 85%"
+        }
+      });
+    });
+
+    gsap.from(".cta-block", {
+      opacity: 0,
+      y: 40,
+      duration: 1,
+      scrollTrigger: {
+        trigger: ".cta-block",
+        start: "top 85%"
+      }
+    });
+
+    gsap.from("footer", {
+      opacity: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: "footer",
+        start: "top 90%"
+      }
     });
   </script>
 
 </body>
 </html>
-
