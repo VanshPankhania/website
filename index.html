@@ -5,9 +5,6 @@
   <title>RemoteReady – Travel Smarter. Work Better. Live Anywhere.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- AOS Animation Library -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-
   <!-- GSAP Level 4 Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -31,7 +28,7 @@
       overflow-x: hidden;
     }
 
-    /* Animated Gradient Background */
+    /* Animated Gradient Hero */
     header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       background-size: 200% 200%;
@@ -49,7 +46,7 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Parallax floating shapes */
+    /* Floating shapes */
     .floating-shape {
       position: absolute;
       width: 140px;
@@ -108,13 +105,14 @@
     ul { margin-left: 1.2rem; margin-bottom: 0.75rem; }
     li { margin-bottom: 0.35rem; }
 
-    .highlight {
+    .card {
       background: #fff;
       border-radius: 12px;
       padding: 1.25rem 1.5rem;
       box-shadow: 0 4px 14px rgba(0,0,0,0.06);
       margin-bottom: 1rem;
       opacity: 0;
+      transform: translateY(30px);
     }
 
     .plans {
@@ -131,6 +129,7 @@
       border-top: 4px solid var(--secondary);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       opacity: 0;
+      transform: translateY(30px);
     }
 
     .plan-card:hover {
@@ -151,6 +150,7 @@
       border-radius: 16px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       opacity: 0;
+      transform: translateY(30px);
     }
 
     footer {
@@ -159,6 +159,7 @@
       font-size: 0.9rem;
       color: #666;
       opacity: 0;
+      transform: translateY(20px);
     }
 
     @media (max-width: 600px) {
@@ -178,50 +179,49 @@
   </header>
 
   <main>
-
     <!-- WHY SECTION -->
     <section id="why">
       <h2>Why Remote Workers Choose RemoteReady</h2>
-      <p>Moving abroad for a month should feel exciting — not overwhelming...</p>
+      <p>Moving abroad for a month should feel exciting — not overwhelming. But most remote workers end up drowning in questions:</p>
       <ul>
-        <li>Which neighbourhood is safe and walkable</li>
-        <li>Will the WiFi be good enough for calls</li>
-        <li>Where do I work — cafés or coworking</li>
-        <li>How much does Lisbon actually cost</li>
+        <li>Which neighbourhood is safe and walkable?</li>
+        <li>Will the WiFi be good enough for calls?</li>
+        <li>Where do I work — cafés or coworking?</li>
+        <li>How much does Lisbon actually cost?</li>
+        <li>Which Airbnb is legit?</li>
+        <li>Where do I eat healthy without overspending?</li>
+        <li>How do I build a routine that keeps me productive?</li>
       </ul>
-      <p>RemoteReady solves all of this...</p>
+      <p>RemoteReady solves all of this in one personalised, done‑for‑you guide.</p>
     </section>
 
-    <!-- LISBON EXAMPLE -->
+    <!-- SMALL LISBON EXAMPLE (DEMO OF WHAT YOU OFFER) -->
     <section id="lisbon">
       <h2>Example: Lisbon 4‑Week Remote Worker Plan</h2>
 
-      <div class="highlight">
-        <h3>Best Neighbourhoods</h3>
-        <ul>
-          <li><strong>Arroios</strong> — Best value, safe, walkable, great cafés</li>
-          <li><strong>Santos</strong> — Creative, riverside, stylish</li>
-          <li><strong>Baixa</strong> — Central, walkable, touristy</li>
-        </ul>
+      <div class="card">
+        <h3>Neighbourhood Choice</h3>
+        <p><strong>Base: Arroios</strong> — safe, walkable, local, great value, with fast fibre WiFi and easy metro access to Baixa.</p>
       </div>
 
-      <div class="highlight">
-        <h3>Daily Routine</h3>
-        <p><strong>08:00</strong> — Riverside walk</p>
-        <p><strong>09:30</strong> — Deep work at Hello Kristof</p>
-        <p><strong>13:30</strong> — Coworking at Heden</p>
-        <p><strong>18:00</strong> — Gym or sunset at Miradouro da Graça</p>
+      <div class="card">
+        <h3>Daily Routine Snapshot</h3>
+        <p><strong>Morning:</strong> Deep work in a quiet café (e.g. Fabrica Coffee Roasters or Hello, Kristof).</p>
+        <p><strong>Afternoon:</strong> Calls and collaborative work from a coworking space (e.g. Heden, Second Home, or Avila Spaces).</p>
+        <p><strong>Evening:</strong> Fitness, sunset walks at miradouros, or riverside at Cais do Sodré.</p>
       </div>
 
-      <div class="highlight">
-        <h3>Budget Breakdown</h3>
+      <div class="card">
+        <h3>Budget Snapshot</h3>
+        <p>4 weeks in Lisbon on a lean but realistic budget:</p>
         <ul>
-          <li>Accommodation: £620</li>
-          <li>Food: £220</li>
-          <li>Coworking: £120</li>
-          <li>Transport: £40</li>
-          <li>Total: ~£1,730–£1,780</li>
+          <li>Accommodation (private room in Arroios): ~£620</li>
+          <li>Food (mostly home‑cooked + a few meals out): ~£220</li>
+          <li>Coworking (part‑time/day passes): ~£120</li>
+          <li>Transport (Navegante pass): ~£40</li>
+          <li>Extras (coffee, activities, contingency): ~£250–300</li>
         </ul>
+        <p><strong>Total:</strong> ~£1,730–£1,780 for 4 weeks — comfortably within a £1,800 budget.</p>
       </div>
     </section>
 
@@ -232,16 +232,37 @@
         <div class="plan-card">
           <h3>Starter Plan</h3>
           <p class="price">£80</p>
+          <p>Perfect for short stays (1–2 weeks).</p>
+          <ul>
+            <li>3–7 day itinerary.</li>
+            <li>Café + coworking map.</li>
+            <li>Transport + SIM setup.</li>
+            <li>Budget breakdown.</li>
+          </ul>
         </div>
 
         <div class="plan-card">
           <h3>Work‑Stay Setup</h3>
           <p class="price">£150–£250</p>
+          <p>Best for 1–3 month stays.</p>
+          <ul>
+            <li>Neighbourhood ranking.</li>
+            <li>Accommodation suggestions.</li>
+            <li>Productivity routine.</li>
+            <li>Healthy food map.</li>
+          </ul>
         </div>
 
         <div class="plan-card">
           <h3>Full Relocation Blueprint</h3>
           <p class="price">£350–£500</p>
+          <p>For remote workers relocating abroad.</p>
+          <ul>
+            <li>Multiple itinerary versions.</li>
+            <li>Cost‑of‑living model.</li>
+            <li>“First 48 hours” checklist.</li>
+            <li>2 revisions.</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -250,47 +271,32 @@
     <section id="get-started">
       <div class="cta-block">
         <h2>Ready to Live Abroad Without Stress?</h2>
+        <p>Get your personalised RemoteReady plan and arrive with a clear budget, a safe neighbourhood, a productivity‑friendly routine, and a full month of exploration mapped out for you.</p>
         <a href="#" class="btn-primary">Get Your RemoteReady Guide</a>
       </div>
     </section>
-
   </main>
 
   <footer>
     <p>RemoteReady – Travel smarter. Work better. Live anywhere.</p>
   </footer>
 
-  <!-- AOS Script -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({ duration: 900, easing: 'ease-out-quart', once: true });</script>
-
   <!-- GSAP Animations -->
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
+    // Hero intro
     gsap.from("header h1", { opacity: 0, y: -40, duration: 1 });
     gsap.from("header p", { opacity: 0, y: 20, duration: 1, delay: 0.3 });
     gsap.from(".btn-primary", { opacity: 0, scale: 0.8, duration: 0.8, delay: 0.6 });
 
-    gsap.utils.toArray(".highlight").forEach((box, i) => {
-      gsap.from(box, {
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        delay: i * 0.2,
-        scrollTrigger: {
-          trigger: box,
-          start: "top 80%"
-        }
-      });
-    });
-
-    gsap.utils.toArray(".plan-card").forEach((card, i) => {
-      gsap.from(card, {
-        opacity: 0,
-        scale: 0.9,
+    // Cards (Lisbon + others)
+    gsap.utils.toArray(".card").forEach((card, i) => {
+      gsap.to(card, {
+        opacity: 1,
+        y: 0,
         duration: 0.8,
-        delay: i * 0.2,
+        delay: i * 0.15,
         scrollTrigger: {
           trigger: card,
           start: "top 85%"
@@ -298,22 +304,39 @@
       });
     });
 
-    gsap.from(".cta-block", {
-      opacity: 0,
-      y: 40,
-      duration: 1,
+    // Plan cards
+    gsap.utils.toArray(".plan-card").forEach((card, i) => {
+      gsap.to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: i * 0.15,
+        scrollTrigger: {
+          trigger: card,
+          start: "top 85%"
+        }
+      });
+    });
+
+    // CTA block
+    gsap.to(".cta-block", {
+      opacity: 1,
+      y: 0,
+      duration: 0.9,
       scrollTrigger: {
         trigger: ".cta-block",
         start: "top 85%"
       }
     });
 
-    gsap.from("footer", {
-      opacity: 0,
-      duration: 1,
+    // Footer
+    gsap.to("footer", {
+      opacity: 1,
+      y: 0,
+      duration: 0.9,
       scrollTrigger: {
         trigger: "footer",
-        start: "top 90%"
+        start: "top 95%"
       }
     });
   </script>
