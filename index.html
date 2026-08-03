@@ -1,406 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>RemoteReady – Travel Smarter. Work Better. Live Anywhere.</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<section id="plans">
+  <h2>Choose Your Plan</h2>
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <div class="plans">
 
-  <style>
-    :root {
-      --primary: #1A3D6F;
-      --secondary: #4CC7D8;
-      --accent: #E8D3A0;
-      --dark: #2A2A2A;
-      --light: #f7f9fc;
-    }
+    <!-- STARTER PLAN -->
+    <div class="plan-card" data-plan="starter">
+      <h3>Starter Plan</h3>
+      <p class="price">£80</p>
+      <p>Perfect for short stays (1–2 weeks).</p>
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--light);
-      color: var(--dark);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Animated Gradient Hero */
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      background-size: 200% 200%;
-      animation: gradientShift 12s ease infinite;
-      color: #fff;
-      padding: 4rem 1.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Floating shapes */
-    .floating-shape {
-      position: absolute;
-      width: 140px;
-      height: 140px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 50%;
-      filter: blur(4px);
-      animation: float 10s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-40px); }
-      100% { transform: translateY(0px); }
-    }
-
-    .shape1 { top: 20px; left: 10%; }
-    .shape2 { top: 120px; right: 15%; animation-delay: 2s; }
-
-    header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-    header p { font-size: 1.2rem; max-width: 640px; margin: 0.5rem auto 1.5rem; }
-
-    .btn-primary {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: #fff;
-      color: var(--primary);
-      border-radius: 999px;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
-    }
-
-    main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
-    section { margin-bottom: 3rem; }
-
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.75rem;
-      color: var(--primary);
-    }
-
-    h3 {
-      font-size: 1.3rem;
-      margin: 1.25rem 0 0.5rem;
-      color: var(--primary);
-    }
-
-    p { margin-bottom: 0.75rem; }
-    ul { margin-left: 1.2rem; margin-bottom: 0.75rem; }
-    li { margin-bottom: 0.35rem; }
-
-    /* Cards + Images */
-    .card, .img-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      margin-bottom: 1rem;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .img-card {
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .img-card img {
-      width: 100%;
-      display: block;
-      border-radius: 12px;
-    }
-
-    /* Plans */
-    .plans {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .plan-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      border-top: 4px solid var(--secondary);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .plan-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
-    }
-
-    .price {
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-
-    .cta-block {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.9rem;
-      color: #666;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 2.4rem; }
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="floating-shape shape1"></div>
-    <div class="floating-shape shape2"></div>
-
-    <h1>RemoteReady</h1>
-    <p>Personalised, productivity‑friendly travel plans for remote workers who want to live abroad without stress.</p>
-    <a href="#get-started" class="btn-primary">Get Your RemoteReady Guide</a>
-  </header>
-
-  <main>
-
-    <!-- WHY SECTION -->
-    <section id="why">
-      <h2>Why Remote Workers Choose RemoteReady</h2>
-
-      <div class="img-card">
-        <img src="images/desk.jpg" alt="Remote work planning desk">
-      </div>
-
-      <p>Moving abroad for a month should feel exciting — not overwhelming. But most remote workers end up drowning in questions:</p>
-      <ul>
-        <li>Which neighbourhood is safe and walkable?</li>
-        <li>Will the WiFi be good enough for calls?</li>
-        <li>Where do I work — cafés or coworking?</li>
-        <li>How much does Lisbon actually cost?</li>
-        <li>Which Airbnb is legit?</li>
-        <li>Where do I eat healthy without overspending?</li>
-        <li>How do I build a routine that keeps me productive?</li>
-      </ul>
-      <p>RemoteReady solves all of this in one personalised, done‑for‑you guide.</p>
-    </section>
-
-    <!-- LISBON EXAMPLE -->
-    <section id="lisbon">
-      <h2>Example: Lisbon 4‑Week Remote Worker Plan</h2>
-
-      <div class="img-card">
-        <img src="images/lisbon.jpg" alt="Lisbon rooftops and castle">
-      </div>
-
-      <div class="card">
-        <h3>Neighbourhood Choice</h3>
-
-        <div class="img-card">
-          <img src="images/city.jpg" alt="Lisbon neighbourhood street">
-        </div>
-
-        <p><strong>Base: Arroios</strong> — safe, walkable, local, great value, with fast fibre WiFi and easy metro access to Baixa.</p>
-      </div>
-
-      <div class="card">
-        <h3>Daily Routine Snapshot</h3>
-
-        <div class="img-card">
-          <img src="images/window.jpg" alt="Remote worker by window">
-        </div>
-
-        <p><strong>Morning:</strong> Deep work in a quiet café (Fabrica Coffee Roasters or Hello, Kristof).</p>
-        <p><strong>Afternoon:</strong> Calls + collaboration at coworking spaces (Heden, Second Home, Avila Spaces).</p>
-        <p><strong>Evening:</strong> Fitness, sunset walks at miradouros, or riverside at Cais do Sodré.</p>
-      </div>
-
-      <div class="card">
-        <h3>Coworking Options</h3>
-
-        <div class="img-card">
-          <img src="images/coworking.jpg" alt="Coworking space">
-        </div>
-
+      <div class="plan-details">
         <ul>
-          <li>Heden — calm, modern, reliable WiFi</li>
-          <li>Second Home — creative, plants everywhere</li>
-          <li>Avila Spaces — best for calls</li>
+          <li>3–7 day itinerary</li>
+          <li>Café + coworking map</li>
+          <li>Transport + SIM setup</li>
+          <li>Budget breakdown</li>
+          <li>Arrival checklist</li>
+          <li>Safety notes</li>
         </ul>
       </div>
+    </div>
 
-      <div class="card">
-        <h3>Café Work Options</h3>
+    <!-- WORK-STAY PLAN -->
+    <div class="plan-card" data-plan="workstay">
+      <h3>Work‑Stay Setup</h3>
+      <p class="price">£150–£250</p>
+      <p>Best for 1–3 month stays.</p>
 
-        <div class="img-card">
-          <img src="images/cafe.jpg" alt="Lisbon café workspace">
-        </div>
-
+      <div class="plan-details">
         <ul>
-          <li>Hello, Kristof — quiet mornings</li>
-          <li>Fabrica Coffee Roasters — great espresso</li>
-          <li>Nicolau — bright, aesthetic, good WiFi</li>
+          <li>Neighbourhood ranking</li>
+          <li>Accommodation suggestions</li>
+          <li>Productivity routine</li>
+          <li>Healthy food map</li>
+          <li>Weekly structure plan</li>
+          <li>Local gym + fitness options</li>
+          <li>Two itinerary versions</li>
         </ul>
       </div>
+    </div>
 
-      <div class="card">
-        <h3>Budget Snapshot</h3>
-        <p>4 weeks in Lisbon on a lean but realistic budget:</p>
+    <!-- FULL RELOCATION -->
+    <div class="plan-card" data-plan="relocation">
+      <h3>Full Relocation Blueprint</h3>
+      <p class="price">£350–£500</p>
+      <p>For remote workers relocating abroad.</p>
+
+      <div class="plan-details">
         <ul>
-          <li>Accommodation: ~£620</li>
-          <li>Food: ~£220</li>
-          <li>Coworking: ~£120</li>
-          <li>Transport: ~£40</li>
-          <li>Extras: ~£250–300</li>
+          <li>Multiple itinerary versions</li>
+          <li>Cost‑of‑living model</li>
+          <li>“First 48 hours” checklist</li>
+          <li>Accommodation scouting</li>
+          <li>Visa guidance (country‑specific)</li>
+          <li>Healthcare + safety setup</li>
+          <li>Two revisions included</li>
         </ul>
-        <p><strong>Total:</strong> ~£1,730–£1,780</p>
       </div>
-    </section>
+    </div>
 
-    <!-- PLANS -->
-    <section id="plans">
-      <h2>Choose Your Plan</h2>
-      <div class="plans">
-        <div class="plan-card">
-          <h3>Starter Plan</h3>
-          <p class="price">£80</p>
-          <p>Perfect for short stays (1–2 weeks).</p>
-          <ul>
-            <li>3–7 day itinerary.</li>
-            <li>Café + coworking map.</li>
-            <li>Transport + SIM setup.</li>
-            <li>Budget breakdown.</li>
-          </ul>
-        </div>
-
-        <div class="plan-card">
-          <h3>Work‑Stay Setup</h3>
-          <p class="price">£150–£250</p>
-          <p>Best for 1–3 month stays.</p>
-          <ul>
-            <li>Neighbourhood ranking.</li>
-            <li>Accommodation suggestions.</li>
-            <li>Productivity routine.</li>
-            <li>Healthy food map.</li>
-          </ul>
-        </div>
-
-        <div class="plan-card">
-          <h3>Full Relocation Blueprint</h3>
-          <p class="price">£350–£500</p>
-          <p>For remote workers relocating abroad.</p>
-          <ul>
-            <li>Multiple itinerary versions.</li>
-            <li>Cost‑of‑living model.</li>
-            <li>“First 48 hours” checklist.</li>
-            <li>2 revisions.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section id="get-started">
-      <div class="cta-block">
-        <h2>Ready to Live Abroad Without Stress?</h2>
-        <p>Get your personalised RemoteReady plan and arrive with a clear budget, a safe neighbourhood, a productivity‑friendly routine, and a full month of exploration mapped out for you.</p>
-        <a href="#" class="btn-primary">Get Your RemoteReady Guide</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>RemoteReady – Travel smarter. Work better. Live anywhere.</p>
-  </footer>
-
-  <!-- GSAP Animations -->
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Hero intro
-    gsap.from("header h1", { opacity: 0, y: -40, duration: 1 });
-    gsap.from("header p", { opacity: 0, y: 20, duration: 1, delay: 0.3 });
-    gsap.from(".btn-primary", { opacity: 0, scale: 0.8, duration: 0.8, delay: 0.6 });
-
-    // Cards + Images
-    gsap.utils.toArray(".card, .img-card").forEach((el, i) => {
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: i * 0.15,
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%"
-        }
-      });
-    });
-
-    // Plan cards
-    gsap.utils.toArray(".plan-card").forEach((card, i) => {
-      gsap.to(card, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: i * 0.15,
-        scrollTrigger: {
-          trigger: card,
-          start: "top 85%"
-        }
-      });
-    });
-
-    // CTA block
-    gsap.to(".cta-block", {
-      opacity: 1,
-      y: 0,
-      duration: 0.9,
-      scrollTrigger: {
-        trigger: ".cta-block",
-        start: "top 85%"
-      }
-    });
-
-    // Footer
-    gsap.to("footer", {
-      opacity: 1,
-      y: 0,
-      duration: 0.9,
-      scrollTrigger: {
-        trigger: "footer",
-        start: "top 95%"
-      }
-    });
-  </script>
-
-</body>
-</html>
+  </div>
+</section>
