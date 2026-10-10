@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name | Engineering Portfolio</title>
+<meta name="description" content="Engineering portfolio: robotics, aerospace and mechanical design projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <a class="brand" href="#top">Your Name</a>
+  <nav aria-label="Main">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+    <a class="btn small" href="assets/cv.pdf" download>Download CV</a>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Your Name</h1>
+      <p class="lead">Engineer designing robots, aircraft systems and the mechanical parts that hold them together.</p>
+      <dl class="facts">
+        <div><dt>Degree</dt><dd>MEng Mechanical Engineering</dd></div>
+        <div><dt>Based in</dt><dd>City, Country</dd></div>
+        <div><dt>Focus</dt><dd>Robotics, aerospace, mechanical design</dd></div>
+      </dl>
+      <div class="actions">
+        <a class="btn" href="#projects">View projects</a>
+        <a class="btn ghost" href="assets/cv.pdf" download>Download CV</a>
+      </div>
+    </div>
+
+    <!-- Drawing that traces itself on load: gear, robot arm, aerofoil -->
+    <svg class="draft" viewBox="0 0 480 420" role="img" aria-label="Technical sketch of a gear, a robot arm and an aerofoil">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle pathLength="1" cx="130" cy="120" r="62"/>
+        <circle pathLength="1" cx="130" cy="120" r="22"/>
+        <circle pathLength="1" cx="130" cy="120" r="76" stroke-dasharray="1 0" class="thin"/>
+        <path pathLength="1" class="thin" d="M40 120h180M130 30v180"/>
+        <path pathLength="1" d="M250 330 L330 250 L420 280"/>
+        <circle pathLength="1" cx="250" cy="330" r="12"/>
+        <circle pathLength="1" cx="330" cy="250" r="10"/>
+        <path pathLength="1" d="M420 280 l22 -10 M420 280 l16 18"/>
+        <path pathLength="1" d="M40 390 C 90 340, 190 340, 300 375 C 200 392, 100 400, 40 390 Z"/>
+        <path pathLength="1" class="thin" d="M40 405h260M40 398v14M300 398v14"/>
+      </g>
+      <g class="dim"><text x="130" y="415">260 mm</text><text x="50" y="45">&#8960; 124</text></g>
+    </svg>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <h2>Projects</h2>
+    <div class="tabs" role="tablist" aria-label="Filter projects by discipline">
+      <button role="tab" class="tab active" data-filter="all" aria-selected="true">All</button>
+      <button role="tab" class="tab" data-filter="robotics" aria-selected="false">Robotics</button>
+      <button role="tab" class="tab" data-filter="aerospace" aria-selected="false">Aerospace</button>
+      <button role="tab" class="tab" data-filter="mechanical" aria-selected="false">Mechanical</button>
+      <span class="tab-ink" aria-hidden="true"></span>
+    </div>
+
+    <div class="grid" id="grid">
+
+      <!-- Copy a card to add a project. Set data-cat to robotics, aerospace or mechanical. -->
+      <article class="card" data-cat="robotics">
+        <figure class="shot"><img src="images/robotics-1.jpg" alt="Project 1 photo" loading="lazy"><figcaption>Add photo: images/robotics-1.jpg</figcaption></figure>
+        <div class="body">
+          <p class="tag">Robotics</p>
+          <h3>Autonomous Line-Following Rover</h3>
+          <p>Designed and built a four-wheel rover with PID steering and onboard vision. Cut lap time by 30% over the baseline.</p>
+          <ul class="stack"><li>ROS 2</li><li>Python</li><li>OpenCV</li></ul>
+          <a class="more" href="https://github.com/your-username/project-1">View on GitHub</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="aerospace">
+        <figure class="shot"><img src="images/aerospace-1.jpg" alt="Project 2 photo" loading="lazy"><figcaption>Add photo: images/aerospace-1.jpg</figcaption></figure>
+        <div class="body">
+          <p class="tag">Aerospace</p>
+          <h3>Fixed-Wing UAV Wing Design</h3>
+          <p>Sized and analysed a composite wing for a 2 kg payload UAV. Validated lift and stall behaviour with CFD and wind tunnel tests.</p>
+          <ul class="stack"><li>XFLR5</li><li>ANSYS Fluent</li><li>CATIA</li></ul>
+          <a class="more" href="#">Read case study</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="mechanical">
+        <figure class="shot"><img src="images/mechanical-1.jpg" alt="Project 3 photo" loading="lazy"><figcaption>Add photo: images/mechanical-1.jpg</figcaption></figure>
+        <div class="body">
+          <p class="tag">Mechanical</p>
+          <h3>Two-Stage Gearbox</h3>
+          <p>Designed a 12:1 reduction gearbox with shaft, bearing and fatigue calculations. Manufactured and tested at 95% efficiency.</p>
+          <ul class="stack"><li>SolidWorks</li><li>FEA</li><li>GD&amp;T</li></ul>
+          <a class="more" href="#">Read case study</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="robotics">
+        <figure class="shot"><img src="images/robotics-2.jpg" alt="Project 4 photo" loading="lazy"><figcaption>Add photo: images/robotics-2.jpg</figcaption></figure>
+        <div class="body">
+          <p class="tag">Robotics</p>
+          <h3>6-DOF Robotic Arm</h3>
+          <p>Built a 3D-printed arm with inverse kinematics control and a custom gripper. Repeatability within 1 mm.</p>
+          <ul class="stack"><li>C++</li><li>MATLAB</li><li>Arduino</li></ul>
+          <a class="more" href="https://github.com/your-username/project-4">View on GitHub</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="aerospace">
+        <figure class="shot"><img src="images/aerospace-2.jpg" alt="Project 5 photo" loading="lazy"><figcaption>Add photo: images/aerospace-2.jpg</figcaption></figure>
+        <div class="body">
+          <p class="tag">Aerospace</p>
+          <h3>High-Power Rocket Avionics Bay</h3>
+          <p>Led structural design of the avionics bay for a rocket reaching 3 km apogee. Survived 12 g launch loads in testing.</p>
+          <ul class="stack"><li>Fusion 360</li><li>OpenRocket</li><li>Carbon fibre</li></ul>
+          <a class="more" href="#">Read case study</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="mechanical">
+        <figure class="shot"><img src="images/mechanical-2.jpg" alt="Project 6 photo" loading="lazy"><figcaption>Add photo: images/mechanical-2.jpg</figcaption></figure>
+        <div class="body">
+          <p class="tag">Mechanical</p>
+          <h3>Heat Exchanger Optimisation</h3>
+          <p>Modelled and tested a compact plate heat exchanger. Raised thermal effectiveness by 18% while reducing mass.</p>
+          <ul class="stack"><li>COMSOL</li><li>Python</li><li>Thermodynamics</li></ul>
+          <a class="more" href="#">Read case study</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section split" id="about">
+    <div>
+      <h2>About</h2>
+      <p>Write two or three sentences about who you are, what you enjoy building and what you are looking for next. Keep it factual and specific. Mention a result or a team you worked with.</p>
+      <p>Add a line on your approach: how you test, document and iterate on designs.</p>
+    </div>
+    <dl class="skills">
+      <div><dt>Design</dt><dd>SolidWorks, CATIA, Fusion 360, GD&amp;T</dd></div>
+      <div><dt>Analysis</dt><dd>ANSYS, COMSOL, FEA, CFD</dd></div>
+      <div><dt>Software</dt><dd>Python, C++, MATLAB, ROS 2</dd></div>
+      <div><dt>Making</dt><dd>3D printing, CNC, composites, soldering</dd></div>
+    </dl>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section" id="experience">
+    <h2>Experience and education</h2>
+    <ol class="timeline">
+      <li><span class="when">2025 to now</span><div><h3>Engineering Placement, Company Name</h3><p>One line on what you owned and the result.</p></div></li>
+      <li><span class="when">2021 to 2025</span><div><h3>MEng Mechanical Engineering, University Name</h3><p>First Class. Final-year project: title here.</p></div></li>
+      <li><span class="when">2023</span><div><h3>Team Role, Student Society</h3><p>One line on your contribution.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <h2>Contact</h2>
+    <p>Open to graduate roles and internships in robotics, aerospace and mechanical design.</p>
+    <p class="links">
+      <a href="mailto:you@example.com">you@example.com</a>
+      <a href="https://linkedin.com/in/your-username">LinkedIn</a>
+      <a href="https://github.com/your-username">GitHub</a>
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">&copy; <span id="year">2026</span> Your Name</footer>
+<script src="script.js" defer></script>
+</body>
+</html>
