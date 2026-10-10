@@ -38,6 +38,10 @@ body {
     max-width: 350px;
     border-radius: 12px;
     object-fit: cover;
+
+    /* Slide in from the right */
+    opacity: 0;
+    animation: slideInRight 1s ease forwards;
 }
 
 /* ---------- HEADERS ---------- */
@@ -78,7 +82,17 @@ h2 {
     transition: all 0.2s ease;
     display: block;
     cursor: pointer;
+
+    /* Slide in from the left */
+    opacity: 0;
+    animation: slideInLeft 0.8s ease forwards;
 }
+
+/* Staggered animation */
+.grid .card:nth-child(1) { animation-delay: 0.1s; }
+.grid .card:nth-child(2) { animation-delay: 0.2s; }
+.grid .card:nth-child(3) { animation-delay: 0.3s; }
+.grid .card:nth-child(4) { animation-delay: 0.4s; }
 
 .card:hover {
     transform: translateY(-4px);
@@ -128,6 +142,30 @@ th, td {
 
 th {
     background: #f2f2f2;
+}
+
+/* ---------- ANIMATIONS ---------- */
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* ---------- MOBILE RESPONSIVENESS ---------- */
