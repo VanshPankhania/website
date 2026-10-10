@@ -1,15 +1,20 @@
+/* ---------- GLOBAL ---------- */
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: #fafafa;
     margin: 0;
     padding: 40px;
     color: #333;
+    line-height: 1.6;
 }
 
 .container {
     max-width: 900px;
     margin: auto;
 }
+
+/* ---------- HEADERS ---------- */
 
 h1 {
     font-size: 36px;
@@ -21,11 +26,20 @@ h1 {
     margin-bottom: 30px;
 }
 
+h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* ---------- GRID OF CARDS ---------- */
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
 }
+
+/* ---------- CARD STYLE ---------- */
 
 .card {
     background: white;
@@ -35,6 +49,8 @@ h1 {
     color: #333;
     border: 1px solid #e5e5e5;
     transition: all 0.2s ease;
+    display: block;
+    cursor: pointer;
 }
 
 .card:hover {
@@ -46,4 +62,73 @@ h1 {
 .card h3 {
     margin-top: 0;
     margin-bottom: 10px;
+}
+
+/* ---------- BACK LINK ---------- */
+
+.back-link {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+}
+
+.back-link:hover {
+    color: #000;
+}
+
+/* ---------- IMAGES ---------- */
+
+img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 20px 0;
+    display: block;
+}
+
+/* ---------- TABLES ---------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #f2f2f2;
+}
+
+/* ---------- MOBILE RESPONSIVENESS ---------- */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr; /* One card per row on mobile */
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+    }
 }
