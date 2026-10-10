@@ -132,3 +132,48 @@ th {
         font-size: 14px;
     }
 }
+
+@media (max-width: 800px) {
+
+    .two-column {
+        flex-direction: column;
+    }
+
+    .right-column {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .right-column img {
+        max-width: 260px;
+    }
+}
+
+/* ---------- TWO COLUMN LAYOUT ---------- */
+
+.two-column {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* Left side grows naturally */
+.left-column {
+    flex: 2;
+}
+
+/* Right side (your photo) */
+.right-column {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.right-column img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 12px;
+    object-fit: cover;
+}
