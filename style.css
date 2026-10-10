@@ -218,3 +218,43 @@ th {
         font-size: 14px;
     }
 }
+/* ---------- ENTRANCE ANIMATIONS ---------- */
+
+.slide-in-left,
+.slide-in-right {
+    opacity: 0;
+    animation-duration: 0.9s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.slide-in-left {
+    animation-name: slideInLeft;
+}
+
+.slide-in-right {
+    animation-name: slideInRight;
+    animation-delay: 0.2s; /* photo comes slightly after cards */
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
