@@ -1,503 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>RemoteReady – Travel Smarter. Work Better. Live Anywhere.</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-
-  <style>
-    :root {
-      --primary: #1A3D6F;
-      --secondary: #4CC7D8;
-      --accent: #E8D3A0;
-      --dark: #2A2A2A;
-      --light: #f7f9fc;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background-image: url("images/background.jpg");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      position: relative;
-      color: var(--dark);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.55);
-      backdrop-filter: blur(2px);
-      z-index: -1;
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      background-size: 200% 200%;
-      animation: gradientShift 12s ease infinite;
-      color: #fff;
-      padding: 4rem 1.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .floating-shape {
-      position: absolute;
-      width: 140px;
-      height: 140px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 50%;
-      filter: blur(4px);
-      animation: float 10s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-40px); }
-      100% { transform: translateY(0px); }
-    }
-
-    .shape1 { top: 20px; left: 10%; }
-    .shape2 { top: 120px; right: 15%; animation-delay: 2s; }
-
-    header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-    header p { font-size: 1.2rem; max-width: 640px; margin: 0.5rem auto 1.5rem; }
-
-    .btn-primary {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: #fff;
-      color: var(--primary);
-      border-radius: 999px;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
-    }
-
-    main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
-    section { margin-bottom: 3rem; }
-
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.75rem;
-      color: var(--primary);
-    }
-
-    h3 {
-      font-size: 1.3rem;
-      margin: 1.25rem 0 0.5rem;
-      color: var(--primary);
-    }
-
-    p { margin-bottom: 0.75rem; }
-    ul { margin-left: 1.2rem; margin-bottom: 0.75rem; }
-    li { margin-bottom: 0.35rem; }
-
-    /* White card wrapper */
-    .white-card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 2rem 1.5rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .card, .img-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      margin-bottom: 1rem;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .img-card {
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .img-card img {
-      width: 100%;
-      display: block;
-      border-radius: 12px;
-    }
-
-    .plans {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .plan-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      border-top: 4px solid var(--secondary);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      opacity: 0;
-      transform: translateY(30px);
-      cursor: pointer;
-      position: relative;
-    }
-
-    .plan-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .plan-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.15);
-    }
-
-    .plan-details {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      padding-top: 0;
-    }
-
-    .plan-card.active {
-      border-color: var(--primary);
-      box-shadow: 0 14px 32px rgba(0,0,0,0.18);
-    }
-
-    .plan-card.active .plan-details {
-      padding-top: 1rem;
-    }
-
-    .plan-actions {
-      margin-top: 1rem;
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-secondary {
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      border: 1px solid var(--primary);
-      background: #fff;
-      color: var(--primary);
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .btn-secondary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-      background: var(--accent);
-    }
-
-    .btn-select {
-      padding: 0.6rem 1.4rem;
-      border-radius: 999px;
-      border: none;
-      background: var(--primary);
-      color: #fff;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .btn-select:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-      background: #122a4b;
-    }
-
-    .cta-block {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.9rem;
-      color: #666;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 50;
-    }
-
-    .modal {
-      background: #fff;
-      border-radius: 16px;
-      max-width: 520px;
-      width: 90%;
-      padding: 1.5rem 1.75rem;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
-      transform: translateY(40px);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .modal-close {
-      border: none;
-      background: transparent;
-      font-size: 1.4rem;
-      cursor: pointer;
-      color: #666;
-    }
-
-    #compare {
-      background: #fff;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.9rem;
-    }
-
-    th, td {
-      border-bottom: 1px solid #eee;
-      padding: 0.6rem;
-      text-align: left;
-    }
-
-    th {
-      background: #f3f6fb;
-      color: var(--primary);
-    }
-
-    #onboarding {
-      background: #fff;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .onboarding-steps {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .onboarding-step {
-      flex: 1;
-      min-width: 180px;
-      padding: 0.75rem;
-      border-radius: 10px;
-      background: #f3f6fb;
-      border: 1px solid transparent;
-      transition: border 0.2s ease, background 0.2s ease;
-    }
-
-    .onboarding-step.active {
-      border-color: var(--primary);
-      background: #e6f0ff;
-    }
-
-    .onboarding-controls {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      margin-top: 0.75rem;
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 2.4rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Vansh Pankhania - Engineering Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <div class="floating-shape shape1"></div>
-    <div class="floating-shape shape2"></div>
+<div class="container">
+    <h1>Vansh Pankhania</h1>
+    <p class="subtitle">Mechanical Engineering student passionate about robotics and embedded systems.</p>
 
-    <h1>RemoteReady</h1>
-    <p>Personalised, productivity‑friendly travel plans for remote workers who want to live abroad without stress.</p>
-    <a href="#get-started" class="btn-primary">Get Your RemoteReady Guide</a>
-  </header>
+    <h2>Projects</h2>
 
-  <main>
+    <div class="grid">
 
-    <!-- WHITE CARD 1 -->
-    <div class="white-card">
-      <section id="why">
-        <h2>Why Remote Workers Choose RemoteReady</h2>
+        <a class="card" href="robotic-arm.html">
+            <h3>6‑DOF Robotic Arm</h3>
+            <p>Mimics human arm kinematics with full workspace control.</p>
+        </a>
 
-        <div class="img-card">
-          <img src="images/desk.jpg" alt="Remote work planning desk">
-        </div>
+        <a class="card" href="ultrasonic-rover.html">
+            <h3>Ultrasonic Distance Rover</h3>
+            <p>Autonomous rover using HC‑SR04 sensor for obstacle detection.</p>
+        </a>
 
-        <p>Moving abroad for a month should feel exciting — not overwhelming. But most remote workers end up drowning in questions:</p>
-        <ul>
-          <li>Which neighbourhood is safe and walkable?</li>
-          <li>Will the WiFi be good enough for calls?</li>
-          <li>Where do I work — cafés or coworking?</li>
-          <li>How much does Lisbon actually cost?</li>
-          <li>Which Airbnb is legit?</li>
-          <li>Where do I eat healthy without overspending?</li>
-          <li>How do I build a routine that keeps me productive?</li>
-        </ul>
-        <p>RemoteReady solves all of this in one personalised, done‑for‑you guide.</p>
-      </section>
+        <a class="card" href="planetary-gearbox.html">
+            <h3>Planetary Gearbox</h3>
+            <p>Compact, high‑torque transmission for robotic actuators.</p>
+        </a>
+
+        <a class="card" href="wind-tunnel.html">
+            <h3>Wind Tunnel Pt. 1</h3>
+            <p>Low‑speed tunnel for automotive and aero testing.</p>
+        </a>
+
+        <a class="card" href="cycloidal-gearbox.html">
+            <h3>Cycloidal Gearbox</h3>
+            <p>High‑efficiency, low‑backlash motion system.</p>
+        </a>
+
+        <a class="card" href="model-rockets.html">
+            <h3>Model Rockets</h3>
+            <p>Designing and testing small‑scale rockets.</p>
+        </a>
+
+        <a class="card" href="smart-revision.html">
+            <h3>Smart Revision Assistant</h3>
+            <p>AI‑powered study tool.</p>
+        </a>
+
+        <a class="card" href="other-projects.html">
+            <h3>Other Projects</h3>
+            <p>Misc engineering builds & experiments.</p>
+        </a>
+
     </div>
+</div>
 
-    <!-- WHITE CARD 2 -->
-    <div class="white-card">
-      <section id="lisbon">
-        <h2>Example: Lisbon 4‑Week Remote Worker Plan</h2>
-
-        <div class="img-card">
-          <img src="images/lisbon.jpg" alt="Lisbon rooftops and castle">
-        </div>
-
-        <div class="card">
-          <h3>Neighbourhood Choice</h3>
-
-          <div class="img-card">
-            <img src="images/city.jpg" alt="Lisbon neighbourhood street">
-          </div>
-
-          <p><strong>Base: Arroios</strong> — safe, walkable, local, great value, with fast fibre WiFi and easy metro access to Baixa.</p>
-        </div>
-
-        <div class="card">
-          <h3>Daily Routine Snapshot</h3>
-
-          <div class="img-card">
-            <img src="images/window.jpg" alt="Remote worker by window">
-          </div>
-
-          <p><strong>Morning:</strong> Deep work in a quiet café.</p>
-          <p><strong>Afternoon:</strong> Calls + collaboration at coworking spaces.</p>
-          <p><strong>Evening:</strong> Fitness, sunset walks, riverside.</p>
-        </div>
-
-        <div class="card">
-          <h3>Coworking Options</h3>
-
-          <div class="img-card">
-            <img src="images/coworking.jpg" alt="Coworking space">
-          </div>
-
-          <ul>
-            <li>Heden — calm, modern</li>
-            <li>Second Home — creative</li>
-            <li>Avila Spaces — great for calls</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Café Work Options</h3>
-
-          <div class="img-card">
-            <img src="images/cafe.jpg" alt="Lisbon café workspace">
-          </div>
-
-          <ul>
-            <li>Hello, Kristof — quiet mornings</li>
-            <li>Fabrica Coffee Roasters — great espresso</li>
-            <li>Nicolau — bright, aesthetic</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Budget Snapshot</h3>
-          <p>4 weeks in Lisbon on a lean but realistic budget:</p>
-          <ul>
-            <li>Accommodation: ~£620</li>
-            <li>Food: ~£220</li>
-            <li>Coworking: ~£120</li>
-            <li>Transport: ~£40</li>
-            <li>Extras: ~£250–300</li>
-          </ul>
-          <p><strong>Total:</strong> ~£1,730–£1,780</p>
-        </div>
-      </section>
-    </div>
-
-    <!-- PLANS -->
-    <section id="plans">
-      <h2>Choose Your Plan</h2>
-      <div class="plans">
-
-        <div class="plan-card" data-plan="starter">
-          <div class="plan-icon">🗺️</div>
-          <h3>Starter Plan</h3>
-          <p class="price">£80</p>
-          <p>Perfect for short stays (1–2 weeks).</p>
-
-          <div class="plan-details">
-            <ul>
-              <li>3–7 day itinerary</li>
-              <li>Café + coworking map</li>
-              <li>Transport + SIM setup</li>
-              <li>Budget breakdown</li>
-              <li>Arrival checklist</li>
-              <li>Safety notes</li>
-            </ul>
-          </div>
+</body>
+</html>
 
           <div class="plan-actions">
             <button class="btn-secondary btn-details" data-plan="starter">More details</button>
