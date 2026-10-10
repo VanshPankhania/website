@@ -10,8 +10,34 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: auto;
+}
+
+/* ---------- TWO COLUMN LAYOUT ---------- */
+
+.two-column {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.left-column {
+    flex: 2;
+}
+
+.right-column {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.right-column img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 12px;
+    object-fit: cover;
 }
 
 /* ---------- HEADERS ---------- */
@@ -27,8 +53,8 @@ h1 {
 }
 
 h2 {
-    margin-top: 40px;
-    margin-bottom: 20px;
+    margin-top: 32px;
+    margin-bottom: 12px;
 }
 
 /* ---------- GRID OF CARDS ---------- */
@@ -37,6 +63,7 @@ h2 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
+    margin-top: 0;
 }
 
 /* ---------- CARD STYLE ---------- */
@@ -105,34 +132,6 @@ th {
 
 /* ---------- MOBILE RESPONSIVENESS ---------- */
 
-@media (max-width: 600px) {
-
-    body {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr; /* One card per row on mobile */
-    }
-
-    .card {
-        padding: 18px;
-    }
-
-    th, td {
-        padding: 10px;
-        font-size: 14px;
-    }
-}
-
 @media (max-width: 800px) {
 
     .two-column {
@@ -150,30 +149,34 @@ th {
     }
 }
 
-/* ---------- TWO COLUMN LAYOUT ---------- */
+@media (max-width: 600px) {
 
-.two-column {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-}
+    body {
+        padding: 20px;
+    }
 
-/* Left side grows naturally */
-.left-column {
-    flex: 2;
-}
+    h1 {
+        font-size: 28px;
+    }
 
-/* Right side (your photo) */
-.right-column {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
+    h2 {
+        font-size: 22px;
+        margin-top: 24px;
+        margin-bottom: 10px;
+    }
 
-.right-column img {
-    width: 100%;
-    max-width: 350px;
-    border-radius: 12px;
-    object-fit: cover;
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 4px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+    }
 }
