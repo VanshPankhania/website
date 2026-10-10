@@ -38,10 +38,6 @@ body {
     max-width: 350px;
     border-radius: 12px;
     object-fit: cover;
-
-    /* Slide in from the right */
-    opacity: 0;
-    animation: slideInRight 1s ease forwards;
 }
 
 /* ---------- HEADERS ---------- */
@@ -82,17 +78,7 @@ h2 {
     transition: all 0.2s ease;
     display: block;
     cursor: pointer;
-
-    /* Slide in from the left */
-    opacity: 0;
-    animation: slideInLeft 0.8s ease forwards;
 }
-
-/* Staggered animation */
-.grid .card:nth-child(1) { animation-delay: 0.1s; }
-.grid .card:nth-child(2) { animation-delay: 0.2s; }
-.grid .card:nth-child(3) { animation-delay: 0.3s; }
-.grid .card:nth-child(4) { animation-delay: 0.4s; }
 
 .card:hover {
     transform: translateY(-4px);
@@ -105,51 +91,29 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* ---------- BACK LINK ---------- */
-
-.back-link {
-    text-decoration: none;
-    color: #555;
-    font-size: 14px;
-}
-
-.back-link:hover {
-    color: #000;
-}
-
-/* ---------- IMAGES ---------- */
-
-img {
-    max-width: 100%;
-    border-radius: 10px;
-    margin: 20px 0;
-    display: block;
-}
-
-/* ---------- TABLES ---------- */
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-}
-
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background: #f2f2f2;
-}
-
 /* ---------- ANIMATIONS ---------- */
 
-@keyframes slideInLeft {
+.animate-left,
+.animate-right {
+    opacity: 0;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.animate-left {
+    animation-name: slideInFromLeft;
+}
+
+.animate-right {
+    animation-name: slideInFromRight;
+    animation-delay: 0.2s;
+}
+
+@keyframes slideInFromLeft {
     from {
         opacity: 0;
-        transform: translateX(-40px);
+        transform: translateX(-50px);
     }
     to {
         opacity: 1;
@@ -157,10 +121,10 @@ th {
     }
 }
 
-@keyframes slideInRight {
+@keyframes slideInFromRight {
     from {
         opacity: 0;
-        transform: translateX(40px);
+        transform: translateX(50px);
     }
     to {
         opacity: 1;
@@ -211,50 +175,5 @@ th {
 
     .card {
         padding: 18px;
-    }
-
-    th, td {
-        padding: 10px;
-        font-size: 14px;
-    }
-}
-/* ---------- ENTRANCE ANIMATIONS ---------- */
-
-.slide-in-left,
-.slide-in-right {
-    opacity: 0;
-    animation-duration: 0.9s;
-    animation-timing-function: ease;
-    animation-fill-mode: forwards;
-}
-
-.slide-in-left {
-    animation-name: slideInLeft;
-}
-
-.slide-in-right {
-    animation-name: slideInRight;
-    animation-delay: 0.2s; /* photo comes slightly after cards */
-}
-
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
     }
 }
