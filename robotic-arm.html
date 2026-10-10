@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>6‑DOF Robotic Arm</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <a class="back-link" href="index.html">← Back to Projects</a>
+
+    <h1>6‑DOF Robotic Arm</h1>
+    <p>This 6 Degrees of Freedom (DOF) robotic arm is designed to mimic the kinematics of a human arm, allowing it to reach any point within its workspace with a specific orientation. Each joint contributes one rotational degree of freedom, enabling the arm to position and orient its end‑effector (gripper) in three‑dimensional space.</p>
+
+    <p>The system combines <strong>mechanical design</strong>, <strong>servo‑based actuation</strong>, and <strong>Arduino‑driven control logic</strong> to achieve smooth, coordinated motion.</p>
+
+    <h2>1. Kinematic Structure</h2>
+
+    <table>
+        <tr><th>Joint</th><th>Motion</th><th>Description</th></tr>
+        <tr><td>J1 – Base Rotation</td><td>Yaw</td><td>Rotates the entire arm left/right.</td></tr>
+        <tr><td>J2 – Shoulder</td><td>Pitch</td><td>Raises and lowers the main arm segment.</td></tr>
+        <tr><td>J3 – Elbow</td><td>Pitch</td><td>Extends or retracts the arm’s reach.</td></tr>
+        <tr><td>J4 – Wrist Roll</td><td>Roll</td><td>Rotates the wrist around the arm’s axis.</td></tr>
+        <tr><td>J5 – Wrist Pitch</td><td>Pitch</td><td>Controls the up/down angle of the wrist.</td></tr>
+        <tr><td>J6 – Gripper/Wrist Yaw</td><td>Yaw / Grip</td><td>Rotates the end‑effector or opens/closes the gripper.</td></tr>
+    </table>
+
+    <p>This arrangement allows the arm to perform <strong>full 3D positioning</strong> and <strong>orientation control</strong>, similar to a human shoulder–elbow–wrist system.</p>
+
+    <h2>2. Actuation System (PWM Servos)</h2>
+
+    <p>The arm uses <strong>PWM hobby servos</strong>, each providing:</p>
+
+    <ul>
+        <li>Built‑in position control</li>
+        <li>Torque suitable for lightweight 3D‑printed mechanisms</li>
+        <li>Simple 3‑wire interface (power, ground, signal)</li>
+    </ul>
+
+    <p>The Arduino Uno R3 generates PWM signals using the <code>Servo.h</code> library, sending each servo a pulse between <strong>1000–2000 µs</strong>, corresponding to its angular position.</p>
+
+    <p>To ensure smooth motion:</p>
+
+    <ul>
+        <li>Movements are interpolated using small incremental steps</li>
+        <li>Delays are added between steps to prevent jerky motion</li>
+        <li>Dead‑zones are filtered out to avoid micro‑oscillations</li>
+    </ul>
+
+    <p>This results in <strong>stable, fluid joint movement</strong>, even with low‑cost servos.</p>
+
+    <h2>3. Mechanical Design (3D‑Printed Parts)</h2>
+
+    <p>All structural components are 3D‑printed, including:</p>
+
+    <ul>
+        <li>Base housing</li>
+        <li>Shoulder and elbow brackets</li>
+        <li>Wrist assembly</li>
+        <li>Servo mounts</li>
+        <li>Gripper mechanism</li>
+    </ul>
+
+    <p>The design focuses on:</p>
+
+    <ul>
+        <li><strong>Lightweight geometry</strong> to reduce servo load</li>
+        <li><strong>Reinforced stress points</strong> around joints</li>
+        <li><strong>Modular assembly</strong> for easy upgrades</li>
+        <li><strong>Cable routing channels</strong> for tidy wiring</li>
+    </ul>
+
+    <p>PLA or PETG is typically used for rigidity and ease of printing.</p>
+
+    <h2>4. Electronics and Control</h2>
+
+    <h3>4.1 Arduino Uno R3</h3>
+    <p>The Arduino acts as the central controller, responsible for:</p>
+
+    <ul>
+        <li>Generating PWM signals</li>
+        <li>Reading input devices (joystick, potentiometers, serial commands)</li>
+        <li>Executing programmed motion sequences</li>
+    </ul>
+
+    <h3>4.2 Power Distribution</h3>
+    <p>Servos draw significant current, so the system uses:</p>
+
+    <ul>
+        <li>A dedicated 5–6V external power supply for servos</li>
+        <li>Common ground between Arduino and servo power</li>
+        <li>Capacitors to smooth voltage spikes</li>
+    </ul>
+
+    <p>This prevents brown‑outs and ensures consistent torque.</p>
+
+    <h2>5. Software and Motion Logic</h2>
+
+    <h3>5.1 Manual Control</h3>
+    <p>Using serial commands, joysticks, or even motion‑tracking, each joint can be moved individually.</p>
+
+    <h3>5.2 Automated Sequences</h3>
+    <p>Pre‑programmed routines allow the arm to:</p>
+
+    <ul>
+        <li>Perform pick‑and‑place cycles</li>
+        <li>Move through waypoints</li>
+        <li>Demonstrate gestures or patterns</li>
+    </ul>
+
+    <h3>5.3 Motion Smoothing</h3>
+    <ul>
+        <li>Each target angle is reached gradually</li>
+        <li>Speed is controlled by step size</li>
+        <li>Easing functions can be added for natural movement</li>
+    </ul>
+
+    <h3>5.4 Safety Limits</h3>
+    <ul>
+        <li>Over‑rotation prevention</li>
+        <li>Collision avoidance</li>
+        <li>Servo strain reduction</li>
+    </ul>
+
+    <h2>6. End‑Effector (Gripper)</h2>
+
+    <p>The gripper is servo‑driven and designed to:</p>
+
+    <ul>
+        <li>Open and close smoothly</li>
+        <li>Grip small objects</li>
+        <li>Maintain alignment during wrist rotation</li>
+    </ul>
+
+    <p>Alternative end‑effectors (suction, magnetic, tool‑holders) can be added due to the modular wrist design.</p>
+
+    <h2>7. System Capabilities</h2>
+
+    <p>The completed robotic arm can:</p>
+
+    <ul>
+        <li>Reach and orient objects within its workspace</li>
+        <li>Perform repeatable pick‑and‑place tasks</li>
+        <li>Demonstrate human‑like arm motion</li>
+        <li>Execute programmed routines</li>
+        <li>Interface with external systems (PC, sensors, cameras)</li>
+    </ul>
+
+    <p>Its modular design makes it ideal for:</p>
+
+    <ul>
+        <li>Engineering coursework</li>
+        <li>Robotics research</li>
+        <li>Automation experiments</li>
+        <li>Gesture‑controlled or vision‑guided upgrades</li>
+    </ul>
+
+    <h2>Design Process</h2>
+
+    <p>Before I started any CAD work, I needed a clear idea of what the robotic arm should actually be able to do. I took inspiration from a Brazio Robotics model because I liked how sleek, modular, and straightforward their design was.</p>
+
+    <p>The servos I chose are rated at <strong>20 kg·cm</strong>, meaning they can hold 20 kg at a 1 cm radius. Using the torque relationship:</p>
+
+    <pre>
+Load = 20 kg·cm / lever arm
+    </pre>
+
+    <p>With a ~10 cm distance from the wrist joint to the gripper, the theoretical payload is ~2 kg. After accounting for real‑world losses, the realistic payload is around <strong>1–1.2 kg</strong>.</p>
+
+    <p>Once the functional requirements were set, I modelled the arm in Fusion 360 using parametric constraints, fillets, chamfers, and Blender armature simulations to verify joint motion.</p>
+
+    <p>Parts were printed in PETG using a Creality K2 at 250–260 °C (nozzle) and 70–80 °C (bed), with 0.2–0.28 mm layer height for strength and quality.</p>
+
+</div>
+
+</body>
+</html>
