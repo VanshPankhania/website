@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>6-DOF Robotic Arm (Version 1) | Vansh Pankhania</title>
-<meta name="description" content="A six degrees of freedom arm designed to mimic the kinematics of a human arm.">
+<meta name="description" content="A six degrees of freedom arm that mimics human arm kinematics, with 3D-printed parts, servo actuation and Arduino control.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,22 +24,98 @@
   <div class="proj-head">
     <a class="crumb" href="../index.html#projects">&larr; All projects</a>
     <div><p class="tag">Robotics</p><h1>6-DOF Robotic Arm (Version 1)</h1></div>
-    <p class="lead">A six degrees of freedom arm designed to mimic the kinematics of a human arm.</p>
+    <p class="lead">A six degrees of freedom arm that mimics human arm kinematics, with 3D-printed parts, servo actuation and Arduino control.</p>
   </div>
   <figure class="shot proj-hero"><img src="../images/robotic-arm.jpg" alt="6-DOF Robotic Arm (Version 1)"><figcaption>Add main photo: images/robotic-arm.jpg</figcaption></figure>
   <div class="proj-body">
     <dl class="glance">
       <div><dt>Category</dt><dd>Robotics</dd></div>
       <div><dt>Year</dt><dd>Add year</dd></div>
-      <div><dt>Skills used</dt><dd><ul class="stack"><li>Kinematics</li><li>CAD</li><li>Prototyping</li></ul></dd></div>
+      <div><dt>Skills used</dt><dd><ul class="stack"><li>Fusion 360</li><li>Blender</li><li>Arduino</li><li>PWM servos</li><li>3D printing</li><li>PETG</li></ul></dd></div>
       <div><dt>Full write-up</dt><dd><a class="more" href="#">Open write-up</a></dd></div>
     </dl>
     <div class="prose">
-      <section class="reveal"><h2>Situation</h2><p>This 6 degrees of freedom (DOF) robotic arm is designed to mimic the kinematics of a human arm, allowing it to reach points within its workspace.</p></section>
-      <section class="reveal"><h2>How the arm works</h2><p class="todo">Explain the six joints, what drives each one, and how the controller moves them. Add a labelled diagram if you have one.</p></section>
-      <section class="reveal"><h2>Design and build</h2><p class="todo">Describe the parts you designed, the materials, how you made them and any problems you solved.</p></section>
-      <section class="reveal"><h2>Results</h2><p class="todo">What can the arm do? Add measurements such as reach, payload or accuracy if you tested them.</p></section>
-      <section class="reveal"><h2>What I learned and Version 2</h2><p class="todo">What worked, what failed and what you would change in the next version.</p></section>
+      <section class="reveal"><h2>How the arm works</h2>
+<p>This 6 degrees of freedom (DOF) robotic arm is designed to mimic the kinematics of a human arm, allowing it to reach any point within its workspace with a specific orientation. Each joint contributes one rotational degree of freedom, enabling the arm to position and orient its end-effector (gripper) in three-dimensional space.</p>
+<p>The system combines <strong>mechanical design</strong>, <strong>servo-based actuation</strong> and <strong>Arduino-driven control logic</strong> to achieve smooth, coordinated motion.</p>
+      </section>
+      <section class="reveal"><h2>1. Kinematic structure</h2>
+<p>The arm consists of six rotational joints arranged in a configuration similar to an industrial manipulator:</p>
+<div class="tbl"><table>
+<thead><tr><th>Joint</th><th>Motion</th><th>Function</th></tr></thead>
+<tbody>
+<tr><td>J1 – Base rotation</td><td>Yaw</td><td>Rotates the entire arm left and right.</td></tr>
+<tr><td>J2 – Shoulder</td><td>Pitch</td><td>Raises and lowers the main arm segment.</td></tr>
+<tr><td>J3 – Elbow</td><td>Pitch</td><td>Extends or retracts the arm's reach.</td></tr>
+<tr><td>J4 – Wrist roll</td><td>Roll</td><td>Rotates the wrist around the arm's axis.</td></tr>
+<tr><td>J5 – Wrist pitch</td><td>Pitch</td><td>Controls the up and down angle of the wrist.</td></tr>
+<tr><td>J6 – Gripper / wrist yaw</td><td>Yaw or grip</td><td>Rotates the end-effector or opens and closes the gripper.</td></tr>
+</tbody></table></div>
+<p>This arrangement allows the arm to perform <strong>full 3D positioning</strong> and <strong>orientation control</strong>, similar to a human shoulder, elbow and wrist system.</p>
+      </section>
+      <section class="reveal"><h2>2. Actuation system (PWM servos)</h2>
+<p>The arm uses <strong>PWM hobby servos</strong>, each providing:</p>
+<ul><li>Built-in position control</li><li>Torque suitable for lightweight 3D-printed mechanisms</li><li>A simple 3-wire interface (power, ground, signal)</li></ul>
+<p>The Arduino Uno R3 generates PWM signals using the <code>Servo.h</code> library, sending each servo a pulse between <strong>1000 and 2000 µs</strong>, corresponding to its angular position.</p>
+<p>To ensure smooth motion:</p>
+<ul><li>Movements are interpolated using small incremental steps</li><li>Delays are added between steps to prevent jerky motion</li><li>Dead-zones are filtered out to avoid micro-oscillations</li></ul>
+<p>This results in <strong>stable, fluid joint movement</strong>, even with low-cost servos.</p>
+      </section>
+      <section class="reveal"><h2>3. Mechanical design (3D-printed parts)</h2>
+<p>All structural components are 3D-printed, including:</p>
+<ul><li>Base housing</li><li>Shoulder and elbow brackets</li><li>Wrist assembly</li><li>Servo mounts</li><li>Gripper mechanism</li></ul>
+<p>The design focuses on:</p>
+<ul><li><strong>Lightweight geometry</strong> to reduce servo load</li><li><strong>Reinforced stress points</strong> around joints</li><li><strong>Modular assembly</strong>, allowing easy replacement or upgrades</li><li><strong>Cable routing channels</strong> to keep wiring tidy</li></ul>
+<p>PLA or PETG is typically used for rigidity and ease of printing.</p>
+      </section>
+      <section class="reveal"><h2>4. Electronics and control</h2>
+<h3>4.1 Arduino Uno R3</h3>
+<p>The Arduino acts as the central controller, responsible for:</p>
+<ul><li>Generating PWM signals</li><li>Reading input devices (joystick, potentiometers, serial commands, etc.)</li><li>Executing programmed motion sequences</li></ul>
+<h3>4.2 Power distribution</h3>
+<p>Servos draw significant current, so the system uses:</p>
+<ul><li>A dedicated 5–6 V external power supply for the servos</li><li>A common ground between the Arduino and servo power</li><li>Capacitors to smooth voltage spikes</li></ul>
+<p>This prevents brown-outs and ensures consistent torque.</p>
+      </section>
+      <section class="reveal"><h2>5. Software and motion logic</h2>
+<p>The Arduino code handles:</p>
+<h3>5.1 Manual control</h3>
+<p>Using serial commands, joysticks, or even by moving your own arm, each joint can be moved individually.</p>
+<h3>5.2 Automated sequences</h3>
+<p>Pre-programmed routines allow the arm to:</p>
+<ul><li>Perform pick-and-place cycles</li><li>Move through waypoints</li><li>Demonstrate gestures or patterns</li></ul>
+<h3>5.3 Motion smoothing</h3>
+<p>To avoid sudden jumps:</p>
+<ul><li>Each target angle is reached gradually</li><li>Speed is controlled by step size</li><li>Easing functions can be added for natural movement</li></ul>
+<h3>5.4 Safety limits</h3>
+<p>Software-defined angle limits prevent:</p>
+<ul><li>Over-rotation</li><li>Mechanical collisions</li><li>Servo strain</li></ul>
+      </section>
+      <section class="reveal"><h2>6. End-effector (gripper)</h2>
+<p>The gripper is servo-driven and designed to:</p>
+<ul><li>Open and close smoothly</li><li>Grip small objects</li><li>Maintain alignment during wrist rotation</li></ul>
+<p>Alternative end-effectors (suction, magnetic, tool-holders) can be added thanks to the modular wrist design.</p>
+      </section>
+      <section class="reveal"><h2>7. System capabilities</h2>
+<p>The completed robotic arm needs to be able to:</p>
+<ul><li>Reach and orient objects within its workspace</li><li>Perform repeatable pick-and-place tasks</li><li>Demonstrate human-like arm motion</li><li>Execute programmed routines</li><li>Interface with external systems (PC, sensors, cameras)</li></ul>
+<p>Its modular design makes it ideal for:</p>
+<ul><li>Engineering coursework</li><li>Robotics research</li><li>Automation experiments</li><li>Gesture-controlled or vision-guided upgrades</li></ul>
+      </section>
+      <section class="reveal"><h2>Design process</h2>
+<h3>Defining the requirements</h3>
+<p>Before I started any CAD work, I needed a clear idea of what the robotic arm should actually be able to do. I took a lot of inspiration from a Brazio Robotics model because I liked how sleek, modular and straightforward their design was. Using that as a reference point, I sketched out the basic capabilities I wanted: a full 6-DOF layout, each joint driven by a servo with 180 degrees of motion, and enough strength to lift a useful payload without overstressing the structure.</p>
+<p>The servos I chose are rated at 20 kg·cm, which sounds huge at first, but in practice it means they can hold 20 kg at a 1 cm radius. Using the torque relationship:</p>
+<p class="eq">Load = 20 kg·cm ÷ lever arm<br>Load = 20 kg·cm ÷ 10 cm ≈ 2 kg</p>
+<p>There is about a 10 cm distance from the wrist joint to the gripper, which gives a theoretical payload of about 2 kg. Once you factor in real-world losses, material flex and safety margins, the realistic working payload ends up closer to 1–1.2 kg. Having these numbers in mind early on helped shape the rest of the design and kept everything grounded in what the arm could reliably achieve.</p>
+<h3>Modelling in Fusion 360</h3>
+<p>Once the functional requirements were set, I moved into modelling the arm in Fusion 360. I built each joint, bracket and linkage using reference dimensions and kept everything parametric so I could easily tweak tolerances or geometry later on. Using constraints helped maintain alignment and symmetry across the whole arm, which made the design feel cleaner and more modular. I added fillets and chamfers to reduce stress concentrations on load-bearing parts, especially around servo mounts and rotating joints.</p>
+<p>Throughout the process, I used Blender's armature tools, as I was already familiar with Blender, to simulate how the arm would move, making sure each axis behaved correctly before committing to printing anything.</p>
+<h3>Preparing for printing</h3>
+<p>After the CAD models were finished, I prepared them for 3D printing by exporting STL files with a suitable mesh resolution and orienting each part to maximise layer strength along the directions that would experience the most load. I added supports only where absolutely necessary to keep post-processing simple. For slicing, I used a 0.2–0.28 mm layer height, which gives a good balance between print quality and strength when working with PETG.</p>
+<h3>Printing in PETG</h3>
+<p>I printed the parts in PETG because it offers strong layer adhesion, good impact resistance and low brittleness, which are ideal qualities for a mechanical arm. Using the Creality K2, I ran the nozzle at around 250–260 °C and the bed at 70–80 °C, with slower print speeds between 40–60 mm/s to reduce stringing. Once printed, I checked each part for warping, dimensional accuracy and overall print quality before moving on to assembly.</p>
+      </section>
       <section class="reveal"><h2>Gallery</h2><div class="gallery"><figure class="shot"><img src="../images/robotic-arm-2.jpg" alt="6-DOF Robotic Arm (Version 1) photo 2" loading="lazy"><figcaption>Add photo: images/robotic-arm-2.jpg</figcaption></figure><figure class="shot"><img src="../images/robotic-arm-3.jpg" alt="6-DOF Robotic Arm (Version 1) photo 3" loading="lazy"><figcaption>Add photo: images/robotic-arm-3.jpg</figcaption></figure><figure class="shot"><img src="../images/robotic-arm-4.jpg" alt="6-DOF Robotic Arm (Version 1) photo 4" loading="lazy"><figcaption>Add photo: images/robotic-arm-4.jpg</figcaption></figure></div></section>
       <nav class="pager" aria-label="Other projects">
         <a class="prev" href="model-rockets.html"><small>&larr; Previous</small>Model Rockets</a>
@@ -52,3 +128,4 @@
 <script src="../project.js" defer></script>
 </body>
 </html>
+ 
