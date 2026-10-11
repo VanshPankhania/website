@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+ 
 <header class="site-header" id="top">
   <a class="brand" href="#top">Vansh Pankhania</a>
   <nav aria-label="Main">
@@ -19,10 +19,10 @@
     <a href="#about">About</a>
     <a href="#experience">Education</a>
     <a href="#contact">Contact</a>
-    <a class="btn small" href="images/cv.pdf" download>Download CV</a>
+    <a class="btn small" href="assets/cv.pdf" download>Download CV</a>
   </nav>
 </header>
-
+ 
 <main>
   <!-- HERO -->
   <section class="hero">
@@ -30,7 +30,7 @@
       <h1>Vansh Pankhania</h1>
       <p class="lead">Engineering student with interests and specialties in robotics, aerospace and mechanics.</p>
       <dl class="facts">
-        <div><dt>Studying</dt><dd>Advanced A Level Course In Space Engineering, Loughborough College</dd></div>
+        <div><dt>Studying</dt><dd>Enhanced A Level Programme in Space Engineering, Loughborough College</dd></div>
         <div><dt>Based in</dt><dd>Leicester, UK</dd></div>
         <div><dt>Focus</dt><dd>Robotics, aerospace, mechanical</dd></div>
       </dl>
@@ -39,7 +39,7 @@
         <a class="btn ghost" href="assets/cv.pdf" download>Download CV</a>
       </div>
     </div>
-
+ 
     <!-- Drawing that traces itself on load: gear, robot arm, aerofoil -->
     <svg class="draft" viewBox="0 0 480 420" role="img" aria-label="Technical sketch of a gear, a robot arm and an aerofoil">
       <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -57,7 +57,7 @@
       <g class="dim"><text x="130" y="415">260 mm</text><text x="50" y="45">&#8960; 124</text></g>
     </svg>
   </section>
-
+ 
   <!-- PROJECTS -->
   <section class="section" id="projects">
     <h2>Projects</h2>
@@ -68,9 +68,9 @@
       <button role="tab" class="tab" data-filter="mechanical" aria-selected="false">Mechanical</button>
       <span class="tab-ink" aria-hidden="true"></span>
     </div>
-
+ 
     <div class="grid" id="grid">
-
+ 
       <!-- Copy a card to add a project. Set data-cat to robotics, aerospace or mechanical. -->
       <article class="card" data-cat="robotics">
         <figure class="shot"><img src="images/robotic-arm.jpg" alt="6-DOF Robotic Arm" loading="lazy"><figcaption>Add photo: images/robotic-arm.jpg</figcaption></figure>
@@ -79,10 +79,10 @@
           <h3>6-DOF Robotic Arm</h3>
           <p>A six degrees of freedom arm designed to mimic the kinematics of a human arm, reaching any point within its workspace.</p>
           <ul class="stack"><li>Kinematics</li><li>CAD</li><li>Prototyping</li></ul>
-          <a class="more" href="#">View project</a>
+          <a class="more" href="projects/robotic-arm.html">View project</a>
         </div>
       </article>
-
+ 
       <article class="card" data-cat="robotics">
         <figure class="shot"><img src="images/ultrasonic-rover.jpg" alt="Ultrasonic Distance Sensor Rover" loading="lazy"><figcaption>Add photo: images/ultrasonic-rover.jpg</figcaption></figure>
         <div class="body">
@@ -90,10 +90,10 @@
           <h3>Ultrasonic Distance Sensor Rover</h3>
           <p>A rover that senses its surroundings with ultrasonic sensors and steers around obstacles using decisions made by an Arduino.</p>
           <ul class="stack"><li>Arduino</li><li>Ultrasonic sensors</li><li>Motor driver</li></ul>
-          <a class="more" href="#">View project</a>
+          <a class="more" href="projects/ultrasonic-rover.html">View project</a>
         </div>
       </article>
-
+ 
       <article class="card" data-cat="mechanical">
         <figure class="shot"><img src="images/planetary-gearbox.jpg" alt="Planetary Gearbox for a Robotic Actuator" loading="lazy"><figcaption>Add photo: images/planetary-gearbox.jpg</figcaption></figure>
         <div class="body">
@@ -101,10 +101,10 @@
           <h3>Planetary Gearbox for a Robotic Actuator</h3>
           <p>A compact, high-torque, low-backlash transmission designed for smooth, controlled motion in robotic joints.</p>
           <ul class="stack"><li>Gear design</li><li>CAD</li><li>Actuators</li></ul>
-          <a class="more" href="#">View project</a>
+          <a class="more" href="projects/planetary-gearbox.html">View project</a>
         </div>
       </article>
-
+ 
       <article class="card" data-cat="aerospace">
         <figure class="shot"><img src="images/wind-tunnel.jpg" alt="Low-Speed Wind Tunnel" loading="lazy"><figcaption>Add photo: images/wind-tunnel.jpg</figcaption></figure>
         <div class="body">
@@ -112,10 +112,10 @@
           <h3>Low-Speed Wind Tunnel</h3>
           <p>Designed and built a functional wind tunnel for automotive and aerodynamic testing.</p>
           <ul class="stack"><li>Aerodynamics</li><li>Design</li><li>Testing</li></ul>
-          <a class="more" href="#">View project</a>
+          <a class="more" href="projects/wind-tunnel.html">View project</a>
         </div>
       </article>
-
+ 
       <article class="card" data-cat="mechanical">
         <figure class="shot"><img src="images/cycloidal-gearbox.jpg" alt="Cycloidal Gearbox" loading="lazy"><figcaption>Add photo: images/cycloidal-gearbox.jpg</figcaption></figure>
         <div class="body">
@@ -123,10 +123,10 @@
           <h3>Cycloidal Gearbox</h3>
           <p>A compact reduction gearbox using a cycloidal drive, built to give high reduction in a small space.</p>
           <ul class="stack"><li>Gear design</li><li>CAD</li><li>Prototyping</li></ul>
-          <a class="more" href="#">View project</a>
+          <a class="more" href="projects/cycloidal-gearbox.html">View project</a>
         </div>
       </article>
-
+ 
       <article class="card" data-cat="aerospace">
         <figure class="shot"><img src="images/model-rockets.jpg" alt="Model Rockets" loading="lazy"><figcaption>Add photo: images/model-rockets.jpg</figcaption></figure>
         <div class="body">
@@ -134,38 +134,37 @@
           <h3>Model Rockets</h3>
           <p>A space engineering course project designing and building model rockets.</p>
           <ul class="stack"><li>Rocketry</li><li>Design</li><li>Testing</li></ul>
-          <a class="more" href="#">View project</a>
+          <a class="more" href="projects/model-rockets.html">View project</a>
         </div>
       </article>
-
+ 
     </div>
   </section>
-
+ 
   <!-- ABOUT -->
   <section class="section split" id="about">
     <div>
       <h2>About</h2>
-      <p>My name is Vansh, and I have a deep passion for engineering, particularly within aerospace and robotics. In my free time, I set myself engineering projects to expand my knowledge, strengthen my theoretical understanding, and challenge my problem‑solving skills. I enjoy taking ideas from concept to reality, whether that means designing mechanisms, building prototypes, or experimenting with new technologies. These projects have shaped my curiosity and ambition, and they continue to drive my commitment to pursuing engineering at a higher level. After finishing my college courses, I am looking for a degree aprenticeship to connect with industry professionals, challenge myself in a real workplace, and to develop myself in an environment that is constantly searching for change and innovation.</p>
-      <p>Add a line on how you work: how you test, fix and improve your designs.</p>
+      <p>My name is Vansh, and I have a deep passion for engineering, particularly within aerospace and robotics. In my free time, I set myself engineering projects to expand my knowledge, strengthen my theoretical understanding, and challenge my problem-solving skills. I enjoy taking ideas from concept to reality, whether that means designing mechanisms, building prototypes, or experimenting with new technologies. These projects have shaped my curiosity and ambition, and they continue to drive my commitment to pursuing engineering at a higher level. After finishing my college courses, I am looking for a degree apprenticeship to connect with industry professionals, challenge myself in a real workplace, and to develop myself in an environment that is constantly searching for change and innovation.</p>
     </div>
     <dl class="skills">
-      <div><dt>Design</dt><dd>CAD (Solidworks, Fusion360, Blender), gear design</dd></div>
-      <div><dt>Electronics & Programming </dt><dd>Arduino, ESP32, Raspberry Pi, Python, C++, HTML </dd></div>
+      <div><dt>Design</dt><dd>CAD (SolidWorks, Fusion 360, Blender), gear design</dd></div>
+      <div><dt>Electronics &amp; programming</dt><dd>Arduino, ESP32, Raspberry Pi, Python, C++, HTML</dd></div>
       <div><dt>Making</dt><dd>3D printing, building and testing prototypes</dd></div>
       <div><dt>Other</dt><dd>Documentation, teamwork, problem solving</dd></div>
     </dl>
   </section>
-
+ 
   <!-- EXPERIENCE -->
   <section class="section" id="experience">
     <h2>Education and experience</h2>
     <ol class="timeline">
-      <li><span class="when">2025 to now</span><div><h3>Enhanced A level programme in Space Engineering</h3><p>I am currently studying the Enhanced A Level Programme in Space Engineering at Loughborough College, where I am building strong analytical and practical skills in physics, mathematics, and aerospace engineering. With lessons and masterclasses taught by professionals from the National Space Centre, the course comlements my independent projects, helping me develop both theoretical understanding and hands-on engineering experience. .</p></div></li>
+      <li><span class="when">2025 to now</span><div><h3>Enhanced A Level Programme in Space Engineering, Loughborough College</h3><p>I am currently studying the Enhanced A Level Programme in Space Engineering at Loughborough College, where I am building strong analytical and practical skills in physics, mathematics, and aerospace engineering. With lessons and masterclasses taught by professionals from the National Space Centre, the course complements my independent projects, helping me develop both theoretical understanding and hands-on engineering experience.</p></div></li>
       <li><span class="when">2020 to 2025</span><div><h3>GCSEs, Rushey Mead Academy</h3><p>Grade 9 in Physics and Computer Science, 8 in Mathematics, B in FSMQ Additional Maths.</p></div></li>
-      <li><span class="when"></span><div><h3>`</h3><p>Work experience at companies such as Rolls Royce and Ford</p></div></li>
+      <li><span class="when">Add year</span><div><h3>Work experience</h3><p>Work experience at companies such as Rolls Royce and Ford.</p></div></li>
     </ol>
   </section>
-
+ 
   <!-- CONTACT -->
   <section class="section contact" id="contact">
     <h2>Contact</h2>
@@ -177,9 +176,9 @@
     </p>
   </section>
 </main>
-
-<footer class="site-footer">&copy; <span id="year">2026</span> Your Name</footer>
+ 
+<footer class="site-footer">&copy; <span id="year">2026</span> Vansh Pankhania</footer>
 <script src="script.js" defer></script>
 </body>
 </html>
-
+ 
