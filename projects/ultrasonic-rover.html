@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ultrasonic Distance Sensor Rover | Vansh Pankhania</title>
-<meta name="description" content="A rover that senses its surroundings with ultrasonic sensors and drives around obstacles.">
+<meta name="description" content="An autonomous Arduino rover that detects obstacles, steers around them and turns accurately using an IMU.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,21 +24,106 @@
   <div class="proj-head">
     <a class="crumb" href="../index.html#projects">&larr; All projects</a>
     <div><p class="tag">Robotics</p><h1>Ultrasonic Distance Sensor Rover</h1></div>
-    <p class="lead">A rover that senses its surroundings with ultrasonic sensors and drives around obstacles.</p>
+    <p class="lead">An autonomous Arduino rover that detects obstacles, steers around them and turns accurately using an IMU.</p>
   </div>
   <figure class="shot proj-hero"><img src="../images/ultrasonic-rover.jpg" alt="Ultrasonic Distance Sensor Rover"><figcaption>Add main photo: images/ultrasonic-rover.jpg</figcaption></figure>
   <div class="proj-body">
     <dl class="glance">
       <div><dt>Category</dt><dd>Robotics</dd></div>
       <div><dt>Year</dt><dd>Add year</dd></div>
-      <div><dt>Skills used</dt><dd><ul class="stack"><li>Arduino</li><li>Ultrasonic sensors</li><li>Motor driver</li></ul></dd></div>
+      <div><dt>Skills used</dt><dd><ul class="stack"><li>Arduino Uno</li><li>L298N</li><li>HC-SR04</li><li>MPU6050 IMU</li><li>3D printing</li><li>CAD</li></ul></dd></div>
       <div><dt>Full write-up</dt><dd><a class="more" href="#">Open write-up</a></dd></div>
     </dl>
     <div class="prose">
-      <section class="reveal"><h2>Components</h2><ul><li>Ultrasonic distance sensor</li><li>Servo</li><li>Arduino</li><li>Motor driver</li><li>Chassis</li></ul></section>
-      <section class="reveal"><h2>How it works</h2><ol><li>Sensors collect information about the environment.</li><li>The Arduino processes the sensor data.</li><li>The Arduino sends commands to the motor driver.</li><li>The motor driver powers the motors to move the rover.</li><li>The rover can avoid obstacles or follow programmed routes.</li></ol></section>
-      <section class="reveal"><h2>Sample data</h2><p>Distance readings were collected at three servo angles: left (0&deg;), front (90&deg;) and right (180&deg;). The data was used to see how the rover responds to obstacles and to refine its decision-making algorithm.</p><p class="todo">Add a table of your readings or a photo of the flowchart.</p></section>
-      <section class="reveal"><h2>What I learned</h2><p class="todo">What you would improve, for example sensor accuracy, turning, or speed.</p></section>
+      <section class="reveal"><h2>Summary</h2>
+<p><strong>Problem:</strong> Design a low-cost robot that can travel across terrain on its own, detect obstacles, steer around them and carry on with its journey without human control.</p>
+<p><strong>Action:</strong> I designed and built a rover around an Arduino Uno, a 3D printed chassis, geared DC wheel motors and ultrasonic distance sensors. I wrote an obstacle-avoidance algorithm, then diagnosed and fixed two major faults: a power problem that stopped the wheels moving, and an inconsistent 90° turn. The turning fault was solved by adding an IMU (gyroscope) module for closed-loop heading control.</p>
+<p><strong>Result:</strong> The final rover drives autonomously, detects obstacles, performs accurate, repeatable 90° turns regardless of battery level or surface, and resumes its path. The project built strong skills in algorithmic thinking, problem solving, and electronic and robotic systems.</p>
+      </section>
+      <section class="reveal"><h2>1. Problem statement and requirements</h2>
+<p>The goal was a rover able to cross varied terrain autonomously. Breaking that down:</p><div class="tbl"><table><thead><tr><th>ID</th><th>Requirement</th><th>How it was judged</th></tr></thead><tbody><tr><td>R1</td><td>Drive forward under its own power</td><td>Rover travels in a straight line without human input</td></tr><tr><td>R2</td><td>Detect obstacles ahead</td><td>Reliable detection at a set threshold distance</td></tr><tr><td>R3</td><td>Choose a clear direction and manoeuvre around the obstacle</td><td>Rover avoids a test obstacle without contact</td></tr><tr><td>R4</td><td>Turn accurately</td><td>90° turns repeatable to within a few degrees</td></tr><tr><td>R5</td><td>Continue its journey after avoiding</td><td>Returns to forward travel automatically</td></tr><tr><td>R6</td><td>Run from portable battery power</td><td>No USB tether during operation</td></tr><tr><td>R7</td><td>Low cost, reproducible, easy to modify</td><td>3D printed parts, common components</td></tr></tbody></table></div>
+      </section>
+      <section class="reveal"><h2>2. Design process</h2>
+<h3>2.1 Concept and approach</h3>
+<p>I considered three approaches before choosing:</p><ol><li><strong>Line follower:</strong> simple, but needs a prepared track, so it fails the "across terrain" goal.</li><li><strong>Camera or vision navigation:</strong> powerful but far beyond the Arduino Uno's processing capacity and budget.</li><li><strong>Ultrasonic obstacle avoidance:</strong> cheap, robust, works without preparing the environment and runs comfortably on an Uno. <strong>Chosen.</strong></li></ol>
+<h3>2.2 Chassis design (3D printed)</h3>
+<p>The chassis was modelled in CAD and printed in PLA/PETG. Design priorities:</p><ul><li>Rigid base plate with mounting holes for the Arduino, motor driver and battery pack so everything is secured and weight is centred.</li><li>Motor mounts sized for the gear motors, keeping axles parallel so the rover tracks straight.</li><li>Low centre of gravity, with the battery placed between the axles to improve traction and stability over uneven ground.</li><li>Sensor bracket at the front, angled slightly upwards and clear of the ground to avoid false echoes, with a mount for a sensor facing each side.</li><li>Ground clearance high enough to pass small bumps, with a rounded front lip to ride over minor obstacles.</li><li>Modularity: separate printed parts (base, motor mounts, sensor bracket, lid) so any piece can be reprinted if it breaks.</li></ul>
+<p>Print settings favoured strength: 3–4 perimeters and 30–40% infill on load-bearing parts.</p>
+<h3>2.3 Component selection</h3><div class="tbl"><table><thead><tr><th>Component</th><th>Choice</th><th>Why</th></tr></thead><tbody><tr><td>Controller</td><td>Arduino Uno (ATmega328P)</td><td>Familiar, plenty of I/O, large community support</td></tr><tr><td>Drive</td><td>2 × geared DC motors (differential drive)</td><td>Simple steering by varying left/right speed</td></tr><tr><td>Motor driver</td><td>L298N dual H-bridge</td><td>Handles motor current, gives direction and PWM speed control</td></tr><tr><td>Distance sensing</td><td>HC-SR04 ultrasonic sensors (front, plus side/scan)</td><td>Cheap, 2 cm to about 4 m range</td></tr><tr><td>Heading sensor</td><td>MPU6050 IMU (added in iteration 2)</td><td>Gyroscope for measuring rotation</td></tr><tr><td>Power</td><td>Separate battery pack for motors, regulated supply for Arduino</td><td>Fixes the power fault (see Issue 1)</td></tr><tr><td>Chassis</td><td>3D printed</td><td>Custom fit, quick iteration</td></tr></tbody></table></div>
+<h3>2.4 Steering model</h3>
+<p>The rover uses differential (tank) steering: both wheels forward drives straight; wheels in opposite directions spins the rover on the spot. Spinning in place allows tight turns and makes a 90° pivot a pure rotation, which is what the IMU later measures.</p>
+      </section>
+      <section class="reveal"><h2>3. Circuit design</h2>
+<h3>3.1 Block diagram</h3>
+<p>Battery → motor driver → motors; regulated 5 V → Arduino, sensors and IMU; Arduino → motor driver control pins; sensors and IMU → Arduino inputs. All grounds are joined at a common point.</p>
+<h3>3.2 Pin map</h3><div class="tbl"><table><thead><tr><th>Function</th><th>Arduino pin</th><th>Connects to</th></tr></thead><tbody><tr><td>Left motor speed (PWM)</td><td>D5</td><td>L298N ENA</td></tr><tr><td>Left motor direction</td><td>D6, D7</td><td>L298N IN1, IN2</td></tr><tr><td>Right motor direction</td><td>D8, D9</td><td>L298N IN3, IN4</td></tr><tr><td>Right motor speed (PWM)</td><td>D10</td><td>L298N ENB</td></tr><tr><td>Front sensor trigger / echo</td><td>D2 / D3</td><td>HC-SR04 Trig / Echo</td></tr><tr><td>Left sensor trigger / echo</td><td>D4 / D11</td><td>HC-SR04 Trig / Echo</td></tr><tr><td>Right sensor trigger / echo</td><td>D12 / D13</td><td>HC-SR04 Trig / Echo</td></tr><tr><td>IMU SDA / SCL</td><td>A4 / A5</td><td>MPU6050 SDA / SCL (I²C)</td></tr><tr><td>Sensor and IMU power</td><td>5 V / 3.3 V, GND</td><td>Per module rating</td></tr></tbody></table></div>
+<h3>3.3 Circuit build process</h3><ol><li>Bench test each module separately (motors, each sensor, IMU) before combining them.</li><li>Prototype on a breadboard to confirm wiring and code.</li><li>Move to the chassis with secure, labelled, strain-relieved wiring (soldered joints or crimped connectors rather than loose jumpers on the moving parts).</li><li>Add a power switch between the battery and the system for safe testing.</li><li>Re-test the whole system after each change.</li></ol>
+      </section>
+      <section class="reveal"><h2>4. Software design</h2>
+<h3>4.1 Algorithm</h3>
+<p>The rover runs a simple state machine, built around sense, decide, act:</p><ol><li>Drive forward at cruising speed while reading the front sensor.</li><li>If distance is greater than the threshold (for example 25 cm), keep going.</li><li>If distance is at or below the threshold, stop, then measure left and right clearance.</li><li>Choose the clearer side and turn 90° towards it.</li><li>Drive forward past the obstacle, then resume travel (optionally realigning to the original heading).</li><li>If both sides are blocked, turn around (two 90° turns) or reverse and retry.</li></ol>
+<h3>4.2 Key software techniques</h3><ul><li><strong>Median filtering:</strong> take several readings per sensor and use the median to reject spurious echoes.</li><li><strong>Timeouts</strong> on <code>pulseIn()</code> so a missed echo never freezes the program.</li><li><strong>Non-blocking structure</strong> where possible, so sensing continues during movement.</li><li><strong>Modular functions</strong> (<code>forward()</code>, <code>stopMotors()</code>, <code>turn(angle)</code>, <code>readDistance()</code>) to keep the code readable and testable.</li></ul>
+      </section>
+      <section class="reveal"><h2>5. Testing strategy</h2>
+<p>Testing was done in layers, from single components up to the full rover.</p><div class="tbl"><table><thead><tr><th>Stage</th><th>Test</th><th>Pass criteria</th><th>Outcome</th></tr></thead><tbody><tr><td>Unit</td><td>Ultrasonic reading against a tape measure</td><td>Within about ±1–2 cm</td><td>Passed</td></tr><tr><td>Unit</td><td>Motor direction and speed via PWM</td><td>Both wheels spin the correct way and respond to PWM</td><td>Initially failed on battery (see Issue 1)</td></tr><tr><td>Integration</td><td>Drive forward, stop at obstacle</td><td>Stops before contact</td><td>Passed after power fix</td></tr><tr><td>Integration</td><td>Turn 90° and continue</td><td>Ends within a few degrees of 90°</td><td>Initially failed (see Issue 2)</td></tr><tr><td>System</td><td>Obstacle course with several objects</td><td>Completes course without collisions</td><td>Passed after IMU added</td></tr><tr><td>Stress</td><td>Low battery, carpet vs smooth floor, slopes</td><td>Behaviour stays consistent</td><td>Passed after IMU added</td></tr></tbody></table></div><p>Each test was logged using the Serial Monitor (sensor values, motor commands, heading) so faults could be traced to a specific cause rather than guessed at.</p>
+      </section>
+      <section class="reveal"><h2>6. Issue 1: Power problem, wheels not moving</h2>
+<h3>Problem</h3>
+<p>On the bench with USB connected, the motors ran. Once the rover was moved to battery power, the Arduino lit up and the code ran (Serial output looked correct), but the wheels did not move, or twitched and then stalled.</p>
+<h3>Investigation</h3><ul><li>Confirmed the code was issuing motor commands, so this was not a logic fault.</li><li>Checked the L298N inputs with a multimeter: control signals were present.</li><li>Measured battery voltage under load: it collapsed the moment the motors tried to start. Motors draw a large inrush (stall) current, far above running current.</li><li>Noted that the L298N drops roughly 1.5–2 V internally across its bipolar transistors, so the motors saw even less than the battery voltage.</li><li>Observed the Arduino resetting or behaving erratically when the motors started, a classic symptom of the supply sagging and of electrical noise on a shared rail.</li></ul>
+<h3>Root causes</h3><ol><li><strong>Insufficient voltage and current:</strong> the supply could not deliver the motor start-up current, especially after the L298N voltage drop.</li><li><strong>Shared, unprotected power rail:</strong> motor surges pulled down the same supply feeding the Arduino.</li><li><strong>Weak or incomplete ground connections</strong> between the driver, battery and Arduino.</li></ol>
+<h3>Action</h3><ul><li>Used a higher-capacity battery pack (higher voltage and current rating) dedicated to the motors, sized to cover the L298N drop and give the motors close to their rated voltage.</li><li>Powered the Arduino from a separate supply or regulated feed so motor surges could not reset it.</li><li>Joined all grounds to a common reference point.</li><li>Added decoupling capacitors (for example 100 nF across each motor terminal and a larger electrolytic across the motor supply) to suppress noise and spikes.</li><li>Shortened and thickened the high-current wiring, and replaced loose jumper connections with secure joints.</li><li>Verified with a multimeter that supply voltage under load stayed within the motors' operating range.</li></ul>
+<h3>Result</h3>
+<p>The wheels moved reliably from battery power, the Arduino no longer reset when the motors started, and the rover could run untethered for repeated test runs. Lesson learned: power design is as important as code, and motors and logic should be treated as separate power domains with a shared ground.</p>
+      </section>
+      <section class="reveal"><h2>7. Issue 2: Turning problem, rover not turning 90°</h2>
+<h3>Problem</h3>
+<p>To avoid an obstacle, the rover needed to turn 90°. The first version did this with a timed turn: spin the wheels in opposite directions for a fixed number of milliseconds (for example <code>delay(450)</code>), then stop.</p>
+<p>This gave inconsistent angles: sometimes about 70°, sometimes more than 100°. The error compounded as the rover continued, so it drifted off course and sometimes failed to clear the obstacle.</p>
+<h3>Why timed turns fail</h3>
+<p>A timed turn is open-loop: it assumes the same time always gives the same rotation. In practice the angle depends on:</p><ul><li>Battery voltage (a fresh battery spins faster than a tired one)</li><li>Surface friction (carpet, tile and gravel all differ)</li><li>Motor mismatch (the two motors never behave identically)</li><li>Wheel slip and load or weight distribution</li><li>Start-up and braking inertia (acceleration and coasting add or remove rotation)</li></ul>
+<p>Tuning the delay for one condition broke it for another, so no single value was reliable.</p>
+<h3>Action: closed-loop turning with an IMU</h3>
+<p>I added an MPU6050 IMU module (3-axis gyroscope plus accelerometer) over I²C. The gyroscope measures angular velocity (°/s) around the vertical (Z) axis. Integrating that over time gives the angle the rover has actually rotated, so the rover can turn until it measures 90° rather than guessing from time.</p>
+<p>Method:</p><ol><li><strong>Calibrate gyro bias at start-up:</strong> with the rover stationary, average a few hundred Z-axis readings to find the zero-rate offset, then subtract it from every reading.</li><li><strong>Integrate yaw:</strong> each loop, compute <code>dt</code> from <code>micros()</code> and add (gyroZ − bias) × dt to the current yaw angle.</li><li><strong>Turn until target reached:</strong> start the motors in opposite directions and stop when yaw has changed by 90°.</li><li><strong>Slow down near the target</strong> to reduce overshoot caused by momentum, then stop and brake.</li><li><strong>Optional correction:</strong> a small proportional (P) controller on the heading error trims the final few degrees.</li></ol>
+<p>Core logic (simplified):</p><pre><code>float yaw = 0;
+unsigned long lastMicros;
+
+void turnDegrees(float target, bool turnRight) {
+  yaw = 0;
+  lastMicros = micros();
+  while (abs(yaw) &lt; target - 2.0) {          // 2° tolerance for coast
+    updateYaw();                             // read gyro, integrate
+    float error = target - abs(yaw);
+    int speed = constrain(60 + error * 2, 80, 160);  // slow near target
+    spin(turnRight, speed);
+  }
+  stopMotors();
+}
+
+void updateYaw() {
+  unsigned long now = micros();
+  float dt = (now - lastMicros) / 1000000.0;
+  lastMicros = now;
+  float gz = readGyroZ() - gyroBias;         // °/s, bias removed
+  yaw += gz * dt;
+}</code></pre>
+<h3>Challenges along the way</h3><ul><li><strong>Gyro drift:</strong> small bias errors accumulate over time. Fixed by calibrating at start-up and resetting yaw at the start of each turn, since each turn lasts only a second or two.</li><li><strong>Motor vibration noise:</strong> mounting the IMU rigidly near the rotation centre and away from the motors reduced noise.</li><li><strong>Overshoot:</strong> reduced by lowering motor speed as the target angle approached.</li><li><strong>Loop timing:</strong> the code was kept lean so integration stayed accurate (frequent reads, no long blocking delays during turns).</li></ul>
+<h3>Result</h3>
+<p>Turns became accurate and repeatable across different battery levels and surfaces, typically within a few degrees of 90°. Because the rover now measures rotation rather than assuming it, the original obstacle-avoidance logic worked as designed and the rover could rejoin its intended path after each manoeuvre.</p><div class="tbl"><table><thead><tr><th></th><th>Timed turn (before)</th><th>IMU turn (after)</th></tr></thead><tbody><tr><td>Method</td><td>Open-loop (fixed delay)</td><td>Closed-loop (measured yaw)</td></tr><tr><td>Affected by battery level</td><td>Yes</td><td>No</td></tr><tr><td>Affected by surface</td><td>Yes</td><td>Largely no</td></tr><tr><td>Accuracy</td><td>Roughly ±20° or worse</td><td>A few degrees</td></tr><tr><td>Repeatability</td><td>Poor</td><td>Good</td></tr></tbody></table></div>
+      </section>
+      <section class="reveal"><h2>8. Final outcome</h2>
+<p>The finished rover:</p><ul><li>Runs from portable battery power with separate motor and logic supplies</li><li>Detects obstacles with ultrasonic sensors and filters out noisy readings</li><li>Chooses a clear side, turns an accurate 90° using the IMU, and avoids the obstacle</li><li>Resumes forward travel and continues its journey autonomously</li><li>Uses a durable, modular 3D printed chassis that is easy to repair and modify</li></ul>
+      </section>
+      <section class="reveal"><h2>9. Skills gained</h2>
+<ul><li><strong>Algorithmic thinking:</strong> breaking a navigation goal into a sense, decide, act loop, handling edge cases such as both sides blocked, and filtering noisy data.</li><li><strong>Problem solving:</strong> isolating faults systematically (measuring with a multimeter, logging to Serial, testing one variable at a time) and finding root causes in both power and control.</li><li><strong>Electronic systems:</strong> power distribution, H-bridge motor drivers, common grounding, decoupling, voltage drop, and I²C communication.</li><li><strong>Robotic systems:</strong> differential drive, sensor integration, open-loop versus closed-loop control, and sensor-based feedback.</li><li><strong>Design and fabrication:</strong> CAD modelling, 3D printing and iterating a physical design.</li></ul>
+      </section>
+      <section class="reveal"><h2>10. Lessons learned</h2>
+<ol><li>Test power under load, not just with the system idle. Many "code" bugs are really power problems.</li><li>Open-loop control is fragile. Wherever accuracy matters, measure the result and feed it back.</li><li>Isolate and test components individually before integrating them.</li><li>Log everything. Serial output turned guesses into evidence.</li><li>Iterate: each failure (power, turning) produced a better design than the first attempt.</li></ol>
+      </section>
+      <section class="reveal"><h2>11. Future improvements</h2>
+<ul><li>Add wheel encoders to combine distance travelled with IMU heading for dead-reckoning navigation.</li><li>Add a servo-mounted ultrasonic sensor for a wider sweep and a simple obstacle map.</li><li>Use sensor fusion (complementary or Kalman filter) combining gyro and accelerometer or magnetometer to remove yaw drift.</li><li>Implement PID speed control for dead-straight driving.</li><li>Upgrade to a rechargeable Li-ion pack with a proper buck regulator and a low-battery warning.</li><li>Add goal-seeking behaviour (for example, return to the original heading after each avoidance).</li><li>Develop a system with a wider field of view, as the sensor cannot detect objects below it well.</li></ul>
+      </section>
       <section class="reveal"><h2>Gallery</h2><div class="gallery"><figure class="shot"><img src="../images/ultrasonic-rover-2.jpg" alt="Ultrasonic Distance Sensor Rover photo 2" loading="lazy"><figcaption>Add photo: images/ultrasonic-rover-2.jpg</figcaption></figure><figure class="shot"><img src="../images/ultrasonic-rover-3.jpg" alt="Ultrasonic Distance Sensor Rover photo 3" loading="lazy"><figcaption>Add photo: images/ultrasonic-rover-3.jpg</figcaption></figure><figure class="shot"><img src="../images/ultrasonic-rover-4.jpg" alt="Ultrasonic Distance Sensor Rover photo 4" loading="lazy"><figcaption>Add photo: images/ultrasonic-rover-4.jpg</figcaption></figure></div></section>
       <nav class="pager" aria-label="Other projects">
         <a class="prev" href="robotic-arm.html"><small>&larr; Previous</small>6-DOF Robotic Arm (Version 1)</a>
